@@ -8,4 +8,5 @@ export const env = {
   DB_USER: process.env.DB_USER || 'root',
   DB_PASSWORD: process.env.DB_PASSWORD || '',
   DB_NAME: process.env.DB_NAME || 'torneos_db',
+  DB_NAMaE: process.env.DB_NAME || 'torneos_db',
 } as const;
