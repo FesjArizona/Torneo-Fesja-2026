@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as tournamentController from '../controllers/tournaments.controller';
+import * as tournamentController from '../controllers/tournament.controller';
 
 export const tournamentsRouter = Router();
 
