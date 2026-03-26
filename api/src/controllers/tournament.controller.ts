@@ -1,12 +1,15 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
 import * as tournamentService from '../services/tournaments.service';
 import { catchAsync, AppError } from '../middlewares/errorHandler';
 import { Tournament } from '../types/Tournaments.interface';
 
 export const getTournaments = catchAsync(async (req, res) => {
     const data = await tournamentService.findTournaments();
-    return data
+    return {
+        code: 200,
+        data: data
+    };
 });
+
 export const getTournament = catchAsync(async (req, res) => {
     const id = parseInt(req.params.id as string, 10);
     const data = await tournamentService.findTournament(id);
