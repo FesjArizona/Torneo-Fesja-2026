@@ -33,7 +33,6 @@ export const create = catchAsync(async (req, res) => {
 
 export const update = catchAsync(async (req, res) => {
     const id = parseInt(req.params.id as string, 10);
-    console.log("entra")
     const updated = await teamService.update(id, req.body);
     return updated
 });
