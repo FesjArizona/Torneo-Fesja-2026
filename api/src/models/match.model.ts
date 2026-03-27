@@ -86,7 +86,7 @@ export async function findById(id: number) {
       me.id,
       me.event_type,
       me.minute,
-      me.period,
+      me.periods,
       me.payload,
       me.score_home,
       me.score_away,
