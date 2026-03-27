@@ -1,5 +1,5 @@
 import * as matchModel from './../models/match.model';
-import * as standingsModel from './../models/standings.model';
+import * as standingsModel from './../models/standing.model';
 
 export async function getByTournament(tournamentId: number, filters: any) {
     return matchModel.findByTournament(tournamentId, filters);
