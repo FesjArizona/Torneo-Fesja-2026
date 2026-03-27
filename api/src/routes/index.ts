@@ -4,6 +4,7 @@ import { userRoutes } from './users.routes';
 import { teamRoutes } from './team.routes';
 import { inscriptionRoutes } from './inscription.routes';
 import { groupRoutes } from './group.routes';
+import { matchRoutes } from './match.routes';
 
 export const router = Router();
 
@@ -12,3 +13,4 @@ router.use('/user', userRoutes);
 router.use('/team', teamRoutes);
 router.use('/', inscriptionRoutes);
 router.use('/', groupRoutes);
+router.use('/', matchRoutes);
