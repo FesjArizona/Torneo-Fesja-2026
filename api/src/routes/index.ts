@@ -6,6 +6,7 @@ import { inscriptionRoutes } from './inscription.routes';
 import { groupRoutes } from './group.routes';
 import { matchRoutes } from './match.routes';
 import { standignRoutes } from './standigns.routes';
+import { roundRoutes } from './round.routes';
 
 export const router = Router();
 
@@ -16,3 +17,4 @@ router.use('/', inscriptionRoutes);
 router.use('/', groupRoutes);
 router.use('/', matchRoutes);
 router.use('/', standignRoutes);
+router.use('/', roundRoutes);
