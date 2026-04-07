@@ -1,18 +1,10 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: 'admin',
-    loadComponent: () =>
-      import('./admin/layout/admin-layout/admin-layout.component')
-        .then(m => m.AdminLayoutComponent),
-    children: [
-      {
-        path: '',
-        loadChildren: () =>
-          import('./admin/admin.routes').then(m => m.ADMIN_ROUTES)
-      }
-    ]
+    {
+    path: '',
+    loadChildren: () =>
+      import('./admin/admin.routes').then(m => m.ADMIN_ROUTES),
   },
   {
     path: '',

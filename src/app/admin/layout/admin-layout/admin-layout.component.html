@@ -1,6 +1,22 @@
-<div class="admin-layout">
+<div class="app-layout">
+
+  <!-- Sidebar -->
   <app-sidebar></app-sidebar>
-  <div class="content">
-    <router-outlet></router-outlet>
+
+  <!-- Main Area -->
+  <div class="app-layout__main d-flex flex-column">
+
+    <!-- Topbar -->
+    <app-topbar
+      pageTitle="pageTitle"
+      pageBreadcrumb="pageBreadcrumb"
+    ></app-topbar>
+
+    <!-- Content -->
+    <main class="app-layout__content">
+      <router-outlet></router-outlet>
+    </main>
+
   </div>
+
 </div>
