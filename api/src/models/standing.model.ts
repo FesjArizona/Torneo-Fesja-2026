@@ -101,7 +101,7 @@ async function upsertStanding(tournamentId: number, groupId: number, teamId: num
         points        = points + ?,
         goals_for     = goals_for     + ?,
         goals_against = goals_against + ?,
-        goal_diff     = goals_for - goals_against
+        goal_diff     = CAST(goals_for AS SIGNED) - CAST(goals_against AS SIGNED)
       WHERE tournament_id = ? AND team_id = ?
         AND (group_id = ? OR (group_id IS NULL AND ? IS NULL))
     `, [
