@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgSwitch, NgSwitchCase } from '@angular/common';
 
@@ -7,7 +7,6 @@ import { SoccerMatchesComponent } from '../soccer-matches/soccer-matches.compone
 import { BasketballMatchesComponent } from '../basketball-matches/basketball-matches.component';
 import { VolleyballMatchesComponent } from '../volleyball-matches/volleyball-matches.component';
 import { map } from 'rxjs';
-import { BracketComponent } from '../../../../../shared/components/bracket/bracket/bracket.component';
 
 @Component({
   standalone: true,
@@ -18,7 +17,6 @@ import { BracketComponent } from '../../../../../shared/components/bracket/brack
     SoccerMatchesComponent,
     BasketballMatchesComponent,
     VolleyballMatchesComponent,
-    BracketComponent
   ],
   template: `
     <ng-container [ngSwitch]="sport()">

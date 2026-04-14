@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Team, Match, Bracket } from '../../../../core/models/bracket.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TournamentService {
   private teams: Team[] = [
     { id: 't1', name: 'Paris', logoUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/1200px-Paris_Saint-Germain_F.C..svg.png' },

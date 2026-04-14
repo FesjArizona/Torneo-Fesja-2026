@@ -1,24 +1,30 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TournamentService } from '../../../../end-user/features/matches/services/tournament.service';
+import { TournamentService } from '../../../../core/services/tournament.service';
 import { Bracket, Match, Team } from '../../../../core/models/bracket.model';
-import { MatchCardComponent } from '../../../../end-user/features/matches/components/match-card/match-card.component';
 import * as d3 from 'd3';
+import { MatchCardComponent } from '../../../../end-user/features/matches/components/match-card/match-card.component';
 
 @Component({
-  standalone: true,
   selector: 'app-bracket',
+  standalone: true,
   imports: [CommonModule, MatchCardComponent],
   templateUrl: './bracket.component.html',
-  styleUrls: ['./bracket.component.scss']
+  styleUrls: ['./bracket.component.scss'],
 })
 export class BracketComponent implements OnInit, AfterViewInit {
-
   bracket!: Bracket;
   @ViewChild('linesOverlay', { static: false }) overlayRef!: ElementRef<SVGSVGElement>;
   @ViewChild('bracketContainer', { static: false }) containerRef!: ElementRef<HTMLDivElement>;
 
   constructor(private tournamentService: TournamentService) {}
+
+  private findMatch(id: string): Match | undefined {
+    return [
+      ...this.bracket.winners.flat(),
+      ...this.bracket.losers.flat()
+    ].find(m => m.id === id);
+  }
 
   ngOnInit() {
     this.bracket = this.tournamentService.getInitialBracket();
@@ -53,9 +59,19 @@ export class BracketComponent implements OnInit, AfterViewInit {
     const g = svg.append('g');
 
     // Draw Winner's Bracket connections
+    // Winners bracket connections
     for (const round of this.bracket.winners) {
       for (const match of round) {
-        if (match.winnerTo) {
+
+        if (!match.winnerTo) continue;
+
+        const target = this.findMatch(match.winnerTo);
+
+        // 🚨 NO permitir conexión hacia losers bracket
+        if (target?.bracketType === 'losers') continue;
+
+        // 🚨 SOLO permitir conexión dentro de winners o hacia final
+        if (target?.bracketType === 'winners' || target?.bracketType === 'championship') {
           this.drawConnection(g, match.id, match.winnerTo, containerRect, '#94a3b8');
         }
       }
@@ -64,8 +80,17 @@ export class BracketComponent implements OnInit, AfterViewInit {
     // Draw Loser's Bracket connections (within loser's bracket only)
     for (const round of this.bracket.losers) {
       for (const match of round) {
-        if (match.winnerTo) {
-          this.drawConnection(g, match.id, match.winnerTo, containerRect, '#94a3b8');
+
+        if (!match.winnerTo) continue;
+
+        const target = this.findMatch(match.winnerTo);
+
+        // 🚨 CRÍTICO: losers NO pueden volver a winners
+        if (target?.bracketType === 'winners') continue;
+
+        // Solo permitir dentro de losers o hacia final
+        if (target?.bracketType === 'losers' || target?.bracketType === 'championship') {
+          this.drawConnection(g, match.id, match.winnerTo, containerRect, '#f97316');
         }
       }
     }
@@ -120,5 +145,4 @@ export class BracketComponent implements OnInit, AfterViewInit {
       .attr('stroke-linecap', 'round')
       .attr('opacity', 0.7);
   }
-
 }

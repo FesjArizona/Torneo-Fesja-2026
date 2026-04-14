@@ -17,6 +17,10 @@ export class MatchCardComponent {
   get isTBD1() { return !this.match.team1; }
   get isTBD2() { return !this.match.team2; }
 
+  isWinner(scoreA: number | null | undefined, scoreB: number | null | undefined): boolean {
+    return (scoreA ?? -1) > (scoreB ?? -1);
+  }
+
   advance(team: Team | null, isTeam1: boolean) {
     if (!team || this.match.isFinished || !this.match.team1 || !this.match.team2) return;
 

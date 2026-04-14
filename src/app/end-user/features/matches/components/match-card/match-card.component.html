@@ -12,8 +12,8 @@
   </div>
 
   <div class="team-row d-flex align-items-center justify-content-between mb-2"
-       (click)="advance(match.team1, true)"
-       [class.winner]="match.score1 !== null && match.score1 > (match.score2 || 0)"
+       (click)="advance(match.team1 ?? null, true)"
+       [class.winner]="isWinner(match.score1, match.score2)"
        [class.selectable]="!match.isFinished && match.team1 && match.team2">
     <div class="d-flex align-items-center">
       <div class="team-logo-placeholder me-2" *ngIf="isTBD1"></div>
@@ -24,8 +24,8 @@
   </div>
 
   <div class="team-row d-flex align-items-center justify-content-between"
-       (click)="advance(match.team2, false)"
-       [class.winner]="match.score2 !== null && match.score2 > (match.score1 || 0)"
+       (click)="advance(match.team2 ?? null, false)"
+       [class.winner]="isWinner(match.score1, match.score2)"
        [class.selectable]="!match.isFinished && match.team1 && match.team2">
     <div class="d-flex align-items-center">
       <div class="team-logo-placeholder me-2" *ngIf="isTBD2"></div>

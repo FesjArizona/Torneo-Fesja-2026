@@ -57,7 +57,8 @@
           <div class="match-pair flex-grow-1 align-items-center justify-content-center">
             <div class="match-node">
               <div class="card-wrapper" [id]="'node-' + bracket.winners[2][0].id">
-                <app-match-card [match]="bracket.winners[2][0]" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
+                <app-match-card [match]="bracket.winners[2][0]"
+                  (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
               </div>
             </div>
           </div>
@@ -71,11 +72,13 @@
           <div class="match-pair flex-grow-1 align-items-center justify-content-center">
             <div class="match-node flex-column">
               <div class="card-wrapper" [id]="'node-' + bracket.championship[0].id">
-                <app-match-card [match]="bracket.championship[0]" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
+                <app-match-card [match]="bracket.championship[0]"
+                  (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
               </div>
               <div class="reset-label text-muted small mt-3 text-center" *ngIf="bracket.championship[1]">
                 <div class="card-wrapper mt-3" [id]="'node-' + bracket.championship[1].id">
-                  <app-match-card [match]="bracket.championship[1]" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
+                  <app-match-card [match]="bracket.championship[1]"
+                    (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
                 </div>
                 <span class="fst-italic">If 1st Loss</span>
               </div>
@@ -87,7 +90,7 @@
       <!-- ============================================ -->
       <!--            LOSER'S BRACKET                   -->
       <!-- ============================================ -->
-      <div class="ms-5 section-label loser-label">Loser's Bracket</div>
+      <div class="ms-5 mt-5 section-label loser-label">Loser's Bracket</div>
       <div class="bracket-row losers-bracket justify-content-center">
 
         <!-- LR1: 2 matches -->
