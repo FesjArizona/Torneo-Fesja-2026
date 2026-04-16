@@ -3,8 +3,8 @@
   <!-- ── Header ──────────────────────────────────────────────────────────── -->
   <div class="teams-page__header d-flex align-items-start justify-content-between">
     <div>
-      <h2 class="teams-page__title">Soccer - Team Management</h2>
-      <p class="teams-page__subtitle">Register, update, and remove soccer teams.</p>
+      <h2 class="teams-page__title">Soccer - Tabla de Equipos</h2>
+      <p class="teams-page__subtitle">Registrar, actualizar y eliminar equipos de fútbol.</p>
     </div>
     <button class="btn-register" data-bs-toggle="modal" data-bs-target="#registerTeamModal">
       <span class="btn-register__icon">
@@ -13,7 +13,7 @@
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
       </span>
-      Register New Team
+      Registrar Nuevo Equipo
     </button>
   </div>
 
@@ -28,7 +28,7 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
       </span>
-      <input type="text" class="teams-card__search-input" placeholder="Search teams..." [(ngModel)]="searchQuery" />
+      <input type="text" class="teams-card__search-input" placeholder="Buscar equipos..." [(ngModel)]="searchQuery" />
     </div>
 
     <!-- Table -->
@@ -37,11 +37,11 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>TEAM NAME</th>
+            <th>NOMBRE EQUIPO</th>
             <th>COACH</th>
-            <th>PLAYERS</th>
-            <th>STATUS</th>
-            <th class="text-end">ACTIONS</th>
+            <th>JUGADORES</th>
+            <th>ESTATUS</th>
+            <th class="text-end">ACCIONES</th>
           </tr>
         </thead>
         <tbody>
@@ -85,7 +85,7 @@
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-              <p>No teams found</p>
+              <p>No se encontraron equipos</p>
             </td>
           </tr>
         </tbody>
@@ -93,6 +93,19 @@
     </div>
   </div>
 
+</div>
+
+<div class="d-flex align-items-center justify-content-center mt-5">
+  <!-- TODO: Implement Create Tournament functionality -->
+  <button class="btn-register" data-bs-toggle="modal">
+    <span class="btn-register__icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+    </span>
+    Crear Torneo
+  </button>
 </div>
 
 <!-- ══ MODAL: Register New Team ════════════════════════════════════════════════ -->
@@ -111,8 +124,8 @@
           </svg>
         </div>
         <div>
-          <h5 class="rmodal__title" id="registerTeamModalLabel">Register New Team</h5>
-          <p class="rmodal__subtitle">Fill in the details to add a new team.</p>
+          <h5 class="rmodal__title" id="registerTeamModalLabel">Registrar Nuevo Equipo</h5>
+          <p class="rmodal__subtitle">Completa los detalles para agregar nuevo equipo.</p>
         </div>
         <button type="button" class="rmodal__close" data-bs-dismiss="modal" aria-label="Close">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -127,30 +140,30 @@
 
         <!-- Team Name -->
         <div class="form-field" [class.form-field--error]="registerSubmitted && !registerForm.name">
-          <label class="form-field__label">Team Name</label>
+          <label class="form-field__label">Nombre del Equipo</label>
           <input type="text" class="form-field__input" placeholder="e.g. Eagles" [(ngModel)]="registerForm.name" />
           <span class="form-field__error" *ngIf="registerSubmitted && !registerForm.name">
-            Team name is required.
+            El nombre del equipo es requerido.
           </span>
         </div>
 
         <!-- Coach Name -->
         <div class="form-field" [class.form-field--error]="registerSubmitted && !registerForm.coach">
-          <label class="form-field__label">Coach Name</label>
+          <label class="form-field__label">Nombre del Coach</label>
           <input type="text" class="form-field__input" placeholder="e.g. Mark Spencer"
             [(ngModel)]="registerForm.coach" />
           <span class="form-field__error" *ngIf="registerSubmitted && !registerForm.coach">
-            Coach name is required.
+            El nombre del coach es requerido.
           </span>
         </div>
 
         <!-- No. Players -->
         <div class="form-field" [class.form-field--error]="registerSubmitted && !registerForm.players">
-          <label class="form-field__label">No. Players</label>
+          <label class="form-field__label">No. Jugadores</label>
           <input type="number" class="form-field__input" placeholder="e.g. 18" min="1"
             [(ngModel)]="registerForm.players" />
           <span class="form-field__error" *ngIf="registerSubmitted && !registerForm.players">
-            Number of players is required.
+            El número de jugadores es requerido.
           </span>
         </div>
 
@@ -159,14 +172,14 @@
       <!-- Footer -->
       <div class="rmodal__footer">
         <button type="button" class="btn-cancel" data-bs-dismiss="modal">
-          Cancel
+          Cancelar
         </button>
         <button type="button" class="btn-submit" (click)="registerTeam()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
-          Register Team
+          Registrar Equipo
         </button>
       </div>
 
@@ -191,9 +204,9 @@
         </div>
         <div>
           <h5 class="rmodal__title" id="editTeamModalLabel">
-            Edit Team <span *ngIf="editingTeam" class="rmodal__title-team">— {{ editingTeam.name }}</span>
+            Editar Equipo <span *ngIf="editingTeam" class="rmodal__title-team">— {{ editingTeam.name }}</span>
           </h5>
-          <p class="rmodal__subtitle">Update the team's information.</p>
+          <p class="rmodal__subtitle">Actualizar la información del equipo.</p>
         </div>
         <button type="button" class="rmodal__close" data-bs-dismiss="modal" aria-label="Close">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -208,34 +221,34 @@
 
         <!-- Team Name -->
         <div class="form-field" [class.form-field--error]="editSubmitted && !editForm.name">
-          <label class="form-field__label">Team Name</label>
+          <label class="form-field__label">Nombre del Equipo</label>
           <input type="text" class="form-field__input" placeholder="e.g. Eagles" [(ngModel)]="editForm.name" />
           <span class="form-field__error" *ngIf="editSubmitted && !editForm.name">
-            Team name is required.
+            El nombre del equipo es requerido.
           </span>
         </div>
 
         <!-- Coach Name -->
         <div class="form-field" [class.form-field--error]="editSubmitted && !editForm.coach">
-          <label class="form-field__label">Coach Name</label>
+          <label class="form-field__label">Nombre del Coach</label>
           <input type="text" class="form-field__input" placeholder="e.g. Mark Spencer" [(ngModel)]="editForm.coach" />
           <span class="form-field__error" *ngIf="editSubmitted && !editForm.coach">
-            Coach name is required.
+            El nombre del coach es requerido.
           </span>
         </div>
 
         <!-- No. Players -->
         <div class="form-field" [class.form-field--error]="editSubmitted && !editForm.players">
-          <label class="form-field__label">No. Players</label>
+          <label class="form-field__label">No. Jugadores</label>
           <input type="number" class="form-field__input" placeholder="e.g. 18" min="1" [(ngModel)]="editForm.players" />
           <span class="form-field__error" *ngIf="editSubmitted && !editForm.players">
-            Number of players is required.
+            El número de jugadores es requerido.
           </span>
         </div>
 
         <!-- Team Status -->
         <div class="form-field">
-          <label class="form-field__label">Team Status</label>
+          <label class="form-field__label">Estado del Equipo</label>
           <div class="status-selector">
             <button *ngFor="let s of statusOptions" type="button" class="status-option"
               [class.status-option--active]="editForm.status === s" [attr.data-status]="s.toLowerCase()"
@@ -251,13 +264,13 @@
       <!-- Footer -->
       <div class="rmodal__footer">
         <button type="button" class="btn-cancel" data-bs-dismiss="modal">
-          Cancel
+          Cancelar
         </button>
         <button type="button" class="btn-submit btn-submit--save" (click)="saveChanges()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="20 6 9 17 4 12" />
           </svg>
-          Save Changes
+          Guardar Cambios
         </button>
       </div>
 
