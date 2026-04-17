@@ -4,4 +4,5 @@ export interface Team {
     logo_url: string,
     contact_email: string,
     contact_phone: number
+    coach: string
 }
