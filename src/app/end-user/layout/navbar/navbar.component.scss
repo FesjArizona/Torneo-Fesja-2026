@@ -109,3 +109,11 @@
   height: 80px;
   object-fit: contain;
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: center;
+    padding: 1.5rem 2rem;
+    gap: 2rem;
+  }
+}

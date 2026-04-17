@@ -11,6 +11,7 @@ import { Match, Team } from '../../../../../core/models/bracket.model';
 })
 export class MatchCardComponent {
 
+  @Input() readOnly = false;
   @Input() match!: Match;
   @Output() teamAdvanced = new EventEmitter<{matchId: string, winner: Team, loser: Team}>();
 
@@ -22,6 +23,7 @@ export class MatchCardComponent {
   }
 
   advance(team: Team | null, isTeam1: boolean) {
+    if (this.readOnly) return;
     if (!team || this.match.isFinished || !this.match.team1 || !this.match.team2) return;
 
     const winner = team;
