@@ -20,11 +20,11 @@ export const getById = catchAsync(async (req, res) => {
 });
 
 export const create = catchAsync(async (req, res) => {
-    const { name, short_name, logo_url, contact_email, contact_phone } = req.body;
+    const { name, short_name, logo_url, contact_email, contact_phone, coach } = req.body;
     if (!name) {
         throw new AppError(400, 'name es obligatorio');
     }
-    const newTeam = await teamService.create({ name, short_name, logo_url, contact_email, contact_phone });
+    const newTeam = await teamService.create({ name, short_name, logo_url, contact_email, contact_phone, coach });
     return {
         code: 201,
         data: newTeam

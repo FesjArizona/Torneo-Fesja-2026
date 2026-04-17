@@ -17,7 +17,7 @@ export async function create(data: Team) {
 export async function update(id: number, data: any) {
     const exists = await teamModel.findById(id);
     if (!exists) return null;
-    const allowed = ['name', 'short_name', 'logo_url', 'contact_email', 'contact_phone'];
+    const allowed = ['name', 'short_name', 'logo_url', 'contact_email', 'contact_phone', 'coach'];
     const fields = {} as any;
     for (const key of allowed) {
         if (data[key] !== undefined) fields[key] = data[key];
