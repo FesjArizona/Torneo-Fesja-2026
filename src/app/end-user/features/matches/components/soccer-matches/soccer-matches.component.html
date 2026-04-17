@@ -1,4 +1,19 @@
+<div class="tabs-container d-flex justify-content-center">
+  <div class="tabs-pill d-flex">
 
-  <app-bracket></app-bracket>
-<!-- <app-bracket [bracket]="bracket"></app-bracket> -->
-<!-- <app-standings-table [data]="standings$ | async"></app-standings-table> -->
+    <button class="tab-btn" [class.active]="activeTab === 'posTableView'" (click)="setTab('posTableView')">
+      Tabla de posiciones
+    </button>
+
+    <button class="tab-btn" [class.active]="activeTab === 'bracketView'" (click)="setTab('bracketView')">
+      Brackets
+    </button>
+
+  </div>
+</div>
+
+<!-- Contenido dinámico -->
+<div class="mt-4">
+  <app-soccer-position-table *ngIf="activeTab === 'posTableView'"></app-soccer-position-table>
+  <app-soccer-bracket-view *ngIf="activeTab === 'bracketView'"></app-soccer-bracket-view>
+</div>
