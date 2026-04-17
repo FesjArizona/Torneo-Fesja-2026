@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiResponse } from 'src/app/interfaces/api.interface';
+import { CreateTeam, EditTeam, Team as Team_ } from 'src/app/interfaces/teams.interface';
+import { TeamsService } from 'src/app/services/teams.service';
 
 type TeamStatus = 'Active' | 'Suspended' | 'Disqualified' | 'Inactive';
 
@@ -18,13 +22,6 @@ interface RegisterForm {
   players: number | null;
 }
 
-interface EditForm {
-  name: string;
-  coach: string;
-  players: number | null;
-  status: TeamStatus;
-}
-
 @Component({
   standalone: true,
   selector: 'app-soccer-team-form',
@@ -33,6 +30,29 @@ interface EditForm {
   styleUrls: ['./soccer-team-form.component.scss'],
 })
 export class SoccerTeamFormComponent {
+
+  public teams = signal<Team_[]>([]);
+
+  private readonly teamsService = inject(TeamsService)
+
+  ngOnInit(): void {
+    this.loadTeams()
+  }
+
+  private loadTeams(): void {
+    this.teamsService.getAllTeams().subscribe({
+      next: (response: ApiResponse<Team_[]>) => {
+        this.teams.set(response.data)
+      },
+      error: (error: HttpErrorResponse) => {
+
+      },
+      complete: () => {
+
+      },
+    })
+  }
+
   searchQuery = '';
 
   readonly statusOptions: TeamStatus[] = [
@@ -42,58 +62,45 @@ export class SoccerTeamFormComponent {
     'Inactive',
   ];
 
-  teams: Team[] = [
-    {
-      id: 1,
-      name: 'Eagles',
-      coach: 'Mark Spencer',
-      players: 9,
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Tigers',
-      coach: 'James Wilson',
-      players: 11,
-      status: 'Active',
-    },
-    {
-      id: 3,
-      name: 'Panthers',
-      coach: 'Sarah Connor',
-      players: 10,
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Lions',
-      coach: 'Michael Jordan',
-      players: 10,
-      status: 'Active',
-    },
-  ];
+
 
   // ── Register ────────────────────────────────────────────────────────────────
-  registerForm: RegisterForm = { name: '', coach: '', players: null };
+  registerForm: CreateTeam = {
+    id: 0,
+    name: '',
+    coach: '',
+    contact_email: '',
+    contact_phone: '',
+    logo_url: '',
+    short_name: ''
+  };
   registerSubmitted = false;
 
   // ── Edit ────────────────────────────────────────────────────────────────────
-  editingTeam: Team | null = null;
-  editForm: EditForm = { name: '', coach: '', players: null, status: 'Active' };
+  editingTeam: Team_ | null = null;
+  editForm: EditTeam = {
+    id: 0,
+    name: '',
+    coach: '',
+    contact_email: '',
+    contact_phone: '',
+    logo_url: '',
+    short_name: ''
+  };
   editSubmitted = false;
 
   // ── Computed ────────────────────────────────────────────────────────────────
-  get filteredTeams(): Team[] {
+  get filteredTeams(): Team_[] {
     const q = this.searchQuery.toLowerCase();
-    if (!q) return this.teams;
-    return this.teams.filter(
+    if (!q) return this.teams();
+    return this.teams().filter(
       (t) =>
-        t.name.toLowerCase().includes(q) || t.coach.toLowerCase().includes(q),
+        t.name.toLowerCase().includes(q),
     );
   }
 
   get nextId(): number {
-    return this.teams.length ? Math.max(...this.teams.map((t) => t.id)) + 1 : 1;
+    return this.teams.length ? Math.max(...this.teams().map((t) => t.id)) + 1 : 1;
   }
 
   // ── Register actions ────────────────────────────────────────────────────────
@@ -102,35 +109,49 @@ export class SoccerTeamFormComponent {
     if (
       !this.registerForm.name ||
       !this.registerForm.coach ||
-      !this.registerForm.players
+      !this.registerForm.short_name
     )
       return;
 
-    this.teams.push({
-      id: this.nextId,
-      name: this.registerForm.name,
-      coach: this.registerForm.coach,
-      players: this.registerForm.players,
-      status: 'Active',
-    });
+    this.teamsService.saveTeam(this.registerForm).subscribe({
+      next: (response: ApiResponse<any>) => {
+        this.resetRegisterForm();
+        this.closeModal('registerTeamModal');
+        this.loadTeams()
+      },
+      error: (error: HttpErrorResponse) => {
+        alert('Algo salió mal')
+      },
+      complete: () => {
 
-    this.resetRegisterForm();
-    this.closeModal('registerTeamModal');
+      },
+    })
   }
 
   resetRegisterForm(): void {
-    this.registerForm = { name: '', coach: '', players: null };
+    this.registerForm = {
+      id: 0,
+      name: '',
+      coach: '',
+      contact_email: '',
+      contact_phone: '',
+      logo_url: '',
+      short_name: ''
+    };
     this.registerSubmitted = false;
   }
 
   // ── Edit actions ────────────────────────────────────────────────────────────
-  openEditModal(team: Team): void {
+  openEditModal(team: Team_): void {
     this.editingTeam = team;
     this.editForm = {
+      id: team.id,
       name: team.name,
       coach: team.coach,
-      players: team.players,
-      status: team.status,
+      short_name: team.short_name,
+      contact_email: team.contact_email,
+      contact_phone: team.contact_phone,
+      logo_url: team.logo_url,
     };
     this.editSubmitted = false;
 
@@ -142,36 +163,56 @@ export class SoccerTeamFormComponent {
   }
 
   saveChanges(): void {
-    this.editSubmitted = true;
-    if (!this.editForm.name || !this.editForm.coach || !this.editForm.players)
-      return;
 
-    if (this.editingTeam) {
-      const idx = this.teams.findIndex((t) => t.id === this.editingTeam!.id);
-      if (idx !== -1) {
-        this.teams[idx] = {
-          ...this.teams[idx],
-          name: this.editForm.name,
-          coach: this.editForm.coach,
-          players: this.editForm.players!,
-          status: this.editForm.status,
-        };
-      }
-    }
+    this.teamsService.editTeam(this.editForm).subscribe({
+      next: (response: ApiResponse<any>) => {
+        this.editSubmitted = true;
+        if (!this.editForm.name || !this.editForm.coach)
+          return;
 
-    this.resetEditForm();
-    this.closeModal('editTeamModal');
+        this.resetEditForm();
+        this.closeModal('editTeamModal');
+        this.loadTeams()
+      },
+      error: (error: HttpErrorResponse) => {
+        alert('Algo salió mal')
+      },
+      complete: () => {
+
+      },
+    })
+
+
   }
 
   resetEditForm(): void {
     this.editingTeam = null;
-    this.editForm = { name: '', coach: '', players: null, status: 'Active' };
+    this.editForm = {
+      id: 0,
+      name: '',
+      coach: '',
+      contact_email: '',
+      contact_phone: '',
+      logo_url: '',
+      short_name: ''
+    };
     this.editSubmitted = false;
   }
 
   // ── Delete ──────────────────────────────────────────────────────────────────
   deleteTeam(id: number): void {
-    this.teams = this.teams.filter((t) => t.id !== id);
+    this.teamsService.deleteTeam(id).subscribe({
+      next: (response: ApiResponse<any>) => {
+
+        this.loadTeams()
+      },
+      error: (error: HttpErrorResponse) => {
+        alert('Algo salió mal')
+      },
+      complete: () => {
+
+      },
+    })
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
