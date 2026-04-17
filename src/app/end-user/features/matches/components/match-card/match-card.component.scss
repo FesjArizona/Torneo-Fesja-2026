@@ -1,3 +1,16 @@
+.team-score-input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+}
+
+.team-score-input:focus {
+  outline: none;
+  border-bottom: 2px solid var(--bs-primary);
+}
+
 .match-card {
   width: 180px;
   border-radius: 12px;

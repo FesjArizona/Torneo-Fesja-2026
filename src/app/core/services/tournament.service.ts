@@ -10,49 +10,49 @@ export class TournamentService {
       id: 't1',
       name: 'Paris',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/1200px-Paris_Saint-Germain_F.C..svg.png',
+        'https://brandlogos.net/wp-content/uploads/2021/10/paris_saint-germain_gradients-logo_brandlogos.net_gileg-300x299.png',
     },
     {
       id: 't2',
       name: 'Monaco',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/AS_Monaco_FC.svg/1200px-AS_Monaco_FC.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2018/11/AS-Monaco-FC-300x519.png',
     },
     {
       id: 't3',
       name: 'Juventus',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Juventus_FC_2017_icon_%28black%29.svg/1200px-Juventus_FC_2017_icon_%28black%29.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2014/10/juventus_fc_2004-2017-logo_brandlogos.net_nnnby-300x489.png',
     },
     {
       id: 't4',
       name: 'Galatasaray',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Galatasaray_Sports_Club_Logo.png/1200px-Galatasaray_Sports_Club_Logo.png',
+        'https://brandlogos.net/wp-content/uploads/2012/12/galatasaray-logo-vector-200x200.png',
     },
     {
       id: 't5',
       name: 'Real Madrid',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/1200px-Real_Madrid_CF.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2021/12/Real-Madrid-CF-logo-300x416.png',
     },
     {
       id: 't6',
       name: 'Benfica',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/S.L._Benfica_logo.svg/1200px-S.L._Benfica_logo.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2014/10/sl_benfica-logo_brandlogos.net_luvkq-300x296.png',
     },
     {
       id: 't7',
       name: 'Atalanta',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/6/66/AtalantaBC.svg/1200px-AtalantaBC.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2014/12/atalanta_bc-logo_brandlogos.net_yq22a-300x491.png',
     },
     {
       id: 't8',
       name: 'Dortmund',
       logoUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Borussia_Dortmund_logo.svg/1200px-Borussia_Dortmund_logo.svg.png',
+        'https://brandlogos.net/wp-content/uploads/2014/12/borussia_dortmund-logo_brandlogos.net_etcsv-300x300.png',
     },
   ];
 
