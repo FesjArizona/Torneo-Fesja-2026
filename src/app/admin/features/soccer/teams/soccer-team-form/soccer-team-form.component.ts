@@ -3,24 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiResponse } from 'src/app/interfaces/api.interface';
-import { CreateTeam, EditTeam, Team as Team_ } from 'src/app/interfaces/teams.interface';
+import { CreateTeam, EditTeam, Team} from 'src/app/interfaces/teams.interface';
 import { TeamsService } from 'src/app/services/teams.service';
 
 type TeamStatus = 'Active' | 'Suspended' | 'Disqualified' | 'Inactive';
-
-interface Team {
-  id: number;
-  name: string;
-  coach: string;
-  players: number;
-  status: TeamStatus;
-}
-
-interface RegisterForm {
-  name: string;
-  coach: string;
-  players: number | null;
-}
 
 @Component({
   standalone: true,
@@ -31,7 +17,7 @@ interface RegisterForm {
 })
 export class SoccerTeamFormComponent {
 
-  public teams = signal<Team_[]>([]);
+  public teams = signal<Team[]>([]);
 
   private readonly teamsService = inject(TeamsService)
 
@@ -41,7 +27,7 @@ export class SoccerTeamFormComponent {
 
   private loadTeams(): void {
     this.teamsService.getAllTeams().subscribe({
-      next: (response: ApiResponse<Team_[]>) => {
+      next: (response: ApiResponse<Team[]>) => {
         this.teams.set(response.data)
       },
       error: (error: HttpErrorResponse) => {
@@ -77,7 +63,7 @@ export class SoccerTeamFormComponent {
   registerSubmitted = false;
 
   // ── Edit ────────────────────────────────────────────────────────────────────
-  editingTeam: Team_ | null = null;
+  editingTeam: Team | null = null;
   editForm: EditTeam = {
     id: 0,
     name: '',
@@ -90,7 +76,7 @@ export class SoccerTeamFormComponent {
   editSubmitted = false;
 
   // ── Computed ────────────────────────────────────────────────────────────────
-  get filteredTeams(): Team_[] {
+  get filteredTeams(): Team[] {
     const q = this.searchQuery.toLowerCase();
     if (!q) return this.teams();
     return this.teams().filter(
@@ -142,7 +128,7 @@ export class SoccerTeamFormComponent {
   }
 
   // ── Edit actions ────────────────────────────────────────────────────────────
-  openEditModal(team: Team_): void {
+  openEditModal(team: Team): void {
     this.editingTeam = team;
     this.editForm = {
       id: team.id,
@@ -203,14 +189,12 @@ export class SoccerTeamFormComponent {
   deleteTeam(id: number): void {
     this.teamsService.deleteTeam(id).subscribe({
       next: (response: ApiResponse<any>) => {
-
         this.loadTeams()
       },
       error: (error: HttpErrorResponse) => {
         alert('Algo salió mal')
       },
       complete: () => {
-
       },
     })
   }
