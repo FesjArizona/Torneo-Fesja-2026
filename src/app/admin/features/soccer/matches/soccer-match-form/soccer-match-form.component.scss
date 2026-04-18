@@ -28,9 +28,13 @@
   }
 }
 
-.full-bracket {
+/* .full-bracket {
   position: relative;
   min-width: max-content;
+} */
+.full-bracket {
+  display: inline-block;
+  position: relative;
 }
 
 .bracket-lines-overlay {

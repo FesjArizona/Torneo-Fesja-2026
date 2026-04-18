@@ -76,7 +76,7 @@ export class SoccerTeamFormComponent {
   editSubmitted = false;
 
   // ── Computed ────────────────────────────────────────────────────────────────
-  get filteredTeams(): Team[] {
+  get filteredTeams(): Team_[] {
     const q = this.searchQuery.toLowerCase();
     if (!q) return this.teams();
     return this.teams().filter(
@@ -128,7 +128,7 @@ export class SoccerTeamFormComponent {
   }
 
   // ── Edit actions ────────────────────────────────────────────────────────────
-  openEditModal(team: Team): void {
+  openEditModal(team: Team_): void {
     this.editingTeam = team;
     this.editForm = {
       id: team.id,
@@ -189,6 +189,7 @@ export class SoccerTeamFormComponent {
   deleteTeam(id: number): void {
     this.teamsService.deleteTeam(id).subscribe({
       next: (response: ApiResponse<any>) => {
+
         this.loadTeams()
       },
       error: (error: HttpErrorResponse) => {

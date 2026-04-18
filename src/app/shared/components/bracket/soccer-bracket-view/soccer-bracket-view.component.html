@@ -1,0 +1,72 @@
+<div class="ms-5 section-label">Winner's Bracket</div>
+
+<div class="bracket-row winners-bracket justify-content-center">
+
+  <ng-container *ngFor="let round of bracket.winners; let i = index">
+
+    <!-- ROUND -->
+    <div class="round">
+      <div class="round-title">RONDA {{ i + 1 }}</div>
+
+      <div class="match-pair flex-grow-1 gap-4">
+
+        <div class="match-node flex-grow-1" *ngFor="let m of round">
+
+          <div class="card-wrapper" [id]="'node-' + m.id">
+
+            <!-- READ ONLY MODE -->
+            <app-match-card
+              [match]="m"
+              [readOnly]="true">
+            </app-match-card>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Spacer entre rondas -->
+    <div class="spacer-col" *ngIf="i < bracket.winners.length - 1"></div>
+
+  </ng-container>
+
+</div>
+
+
+<div class="ms-5 mt-5 section-label loser-label">Loser's Bracket</div>
+
+<div class="bracket-row losers-bracket justify-content-center">
+
+  <ng-container *ngFor="let round of bracket.losers; let i = index">
+
+    <!-- ROUND -->
+    <div class="round">
+      <div class="round-title">RONDA L{{ i + 1 }}</div>
+
+      <div class="match-pair flex-grow-1 gap-4">
+
+        <div class="match-node flex-grow-1" *ngFor="let m of round">
+
+          <div class="card-wrapper" [id]="'node-' + m.id">
+
+            <!-- READ ONLY MODE -->
+            <app-match-card
+              [match]="m"
+              [readOnly]="true">
+            </app-match-card>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="spacer-col" *ngIf="i < bracket.losers.length - 1"></div>
+
+  </ng-container>
+
+</div>
