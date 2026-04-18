@@ -63,9 +63,7 @@
           <tr>
             <th>ID</th>
             <th>NOMBRE TORNEO</th>
-            <th>FECHA INICIO</th>
-            <th>FECHA FINAL</th>
-            <th>LUGAR</th>
+            <th>FECHA</th>
             <th>ESTATUS</th>
             <th class="text-end">ACCIONES</th>
           </tr>
@@ -77,9 +75,9 @@
           >
             <td class="tournament-table__id">#{{ tournament.id }}</td>
             <td class="tournament-table__name">{{ tournament.name }}</td>
-            <td class="tournament-table__coach">{{ tournament.start_date }}</td>
-            <td class="tournament-table__coach">{{ tournament.end_date }}</td>
-            <td class="tournament-table__coach">{{ tournament.location }}</td>
+            <td class="tournament-table__coach">
+              {{ formatDateForInput(tournament.start_date) }}
+            </td>
             <td class="tournament-table__coach">{{ tournament.status }}</td>
             <td>
               <div
@@ -246,6 +244,26 @@
             El nombre del torneo es requerido.
           </span>
         </div>
+
+        <div
+          class="form-field"
+          [class.form-field--error]="
+            registerSubmitted && !registerForm.start_date
+          "
+        >
+          <label class="form-field__label">Fecha del Torneo</label>
+          <input
+            type="date"
+            class="form-field__input"
+            [(ngModel)]="registerForm.start_date"
+          />
+          <span
+            class="form-field__error"
+            *ngIf="registerSubmitted && !registerForm.start_date"
+          >
+            La fecha del torneo es requerida.
+          </span>
+        </div>
       </div>
 
       <!-- Footer -->
@@ -350,6 +368,24 @@
             El nombre del torneo es requerido.
           </span>
         </div>
+
+        <div
+          class="form-field"
+          [class.form-field--error]="registerSubmitted && !editForm.start_date"
+        >
+          <label class="form-field__label">Fecha del Torneo</label>
+          <input
+            type="date"
+            class="form-field__input"
+            [(ngModel)]="editForm.start_date"
+          />
+          <span
+            class="form-field__error"
+            *ngIf="registerSubmitted && !editForm.start_date"
+          >
+            La fecha del torneo es requerida.
+          </span>
+        </div>
       </div>
 
       <!-- Footer -->
@@ -430,145 +466,97 @@
 
       <!-- Body -->
       <div class="rmodal__body">
+        <div class="form-field-group" style="display: flex">
+          <div style="margin-right: 10px">
+            <select class="form-field__input" [(ngModel)]="teamToRegister">
+              <option value="" disabled selected>Selecciona un equipo</option>
+              <option *ngFor="let team of teams()" value="{{ team.id }}">
+                {{ team.name }}
+              </option>
+            </select>
+          </div>
 
-          <div class="tournament-card">
-    <!-- Search -->
-    <div class="tournament-card__search">
-      <span class="tournament-card__search-icon">
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.2"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-      </span>
-      <input
-        type="text"
-        class="tournament-card__search-input"
-        placeholder="Buscar torneo..."
-        [(ngModel)]="searchQuery"
-      />
-    </div>
+          <button (click)="registerTeam()" class="btn-submit">Inscribir</button>
+        </div>
 
-    <!-- Table -->
-    <div class="tournament-table-wrapper">
-      <table class="tournament-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>NOMBRE TORNEO</th>
-            <th>FECHA INICIO</th>
-            <th>FECHA FINAL</th>
-            <th>LUGAR</th>
-            <th>ESTATUS</th>
-            <th class="text-end">ACCIONES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let tournament of filteredtournament"
-            class="tournament-table__row"
-          >
-            <td class="tournament-table__id">#{{ tournament.id }}</td>
-            <td class="tournament-table__name">{{ tournament.name }}</td>
-            <td class="tournament-table__coach">{{ tournament.start_date }}</td>
-            <td class="tournament-table__coach">{{ tournament.end_date }}</td>
-            <td class="tournament-table__coach">{{ tournament.location }}</td>
-            <td class="tournament-table__coach">{{ tournament.status }}</td>
-            <td>
-              <div
-                class="tournament-table__actions d-flex justify-content-end gap-2"
-              >
-                <button
-                  class="action-btn action-btn--edit"
-                  aria-label="Edit"
-                  (click)="openTournamentModal(tournament.id)"
+        <div class="tournament-card">
+          <!-- Table -->
+          <div class="tournament-table-wrapper">
+            <table class="tournament-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>NOMBRE DEL EQUIPO</th>
+                  <th>SEED</th>
+                  <th>ESTATUS INSCRIPCION</th>
+                  <th class="text-end">ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let team of registeredTeams()"
+                  class="tournament-table__row"
                 >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <!-- Contorno del ojo -->
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <!-- Pupila -->
-                    <circle cx="12" cy="12" r="3" fill="currentColor" />
-                  </svg>
-                </button>
-                <button
-                  class="action-btn action-btn--edit"
-                  aria-label="Edit"
-                  (click)="openEditModal(tournament)"
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                    />
-                    <path
-                      d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  class="action-btn action-btn--delete"
-                  aria-label="Delete"
-                  (click)="deleteTournament(tournament.id)"
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                    <path d="M10 11v6M14 11v6" />
-                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                  </svg>
-                </button>
-              </div>
-            </td>
-          </tr>
+                  <td class="tournament-table__id">#{{ team.team_id }}</td>
+                  <td class="tournament-table__name">
+                    {{ team.team_name }}
+                  </td>
+                  <td class="tournament-table__coach">
+                    {{ team.seed }}
+                  </td>
+                  <td class="tournament-table__coach">
+                    {{ team.inscription_status }}
+                  </td>
+                  <td>
+                    <div
+                      class="tournament-table__actions d-flex justify-content-end gap-2"
+                    >
+                      <button
+                        class="action-btn action-btn--delete"
+                        aria-label="Delete"
+                        (click)="unsubscribeTeam(team.team_id)"
+                      >
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <polyline points="3 6 5 6 21 6" />
+                          <path
+                            d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                          />
+                          <path d="M10 11v6M14 11v6" />
+                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-          <!-- Empty state -->
-          <tr *ngIf="filteredtournament.length === 0">
-            <td colspan="6" class="tournament-table__empty">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <p>No se encontraron equipos</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
+                <!-- Empty state -->
+                <tr *ngIf="filteredtournament.length === 0">
+                  <td colspan="6" class="tournament-table__empty">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <p>No se encontraron equipos</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <!-- Footer -->
@@ -576,7 +564,7 @@
         <button type="button" class="btn-cancel" data-bs-dismiss="modal">
           salir
         </button>
-        <button type="button" class="btn-submit" (click)="registerTournament()">
+        <button type="button" class="btn-submit" (click)="generateRounds()">
           <svg
             width="15"
             height="15"

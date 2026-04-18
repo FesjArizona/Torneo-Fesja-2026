@@ -31,4 +31,16 @@ export class TournamentService {
     public delete(id: number): Observable<ApiResponse<any>> {
         return this.httpClient.delete<ApiResponse<any>>(`${URL_API}/tournament/${id}`)
     }
+
+    public registerTeam(team_id: number, seed: number, tournament_id: number): Observable<ApiResponse<any>> {
+        return this.httpClient.post<ApiResponse<any>>(`${URL_API}/tournaments/${tournament_id}/teams`, { team_id, seed })
+    }
+
+    public unsubscribeTeam(team_id: number, tournament_id: number): Observable<ApiResponse<any>> {
+        return this.httpClient.delete<ApiResponse<any>>(`${URL_API}/tournaments/${tournament_id}/teams/${team_id}`)
+    }
+
+    public generateRounds(tournament_id: number): Observable<ApiResponse<any>> {
+        return this.httpClient.post<ApiResponse<any>>(`${URL_API}/tournaments/${tournament_id}/generate`, {})
+    }
 }

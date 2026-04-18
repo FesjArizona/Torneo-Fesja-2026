@@ -21,6 +21,7 @@ export interface CreateTournament {
 export interface EditTournament {
     id: number
     name: string,
+    start_date: string
 }
 
 export interface RegisteredTeam {
