@@ -40,6 +40,12 @@ export const ADMIN_ROUTES: Routes = [
             loadComponent: () =>
               import('./features/soccer/matches/soccer-match-form/soccer-match-form.component')
                 .then(m => m.SoccerMatchFormComponent),
+          },
+          {
+            path: 'tournaments',
+            loadComponent: () =>
+              import('./features/soccer/tournaments/soccer-tournaments-form.component')
+                .then(m => m.soccerTournamentsFormComponent),
           }
         ],
       },

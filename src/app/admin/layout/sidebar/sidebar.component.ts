@@ -25,7 +25,7 @@ interface NavItem {
 })
 export class SidebarComponent {
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   isCollapsed = false;
 
@@ -43,6 +43,7 @@ export class SidebarComponent {
         { label: 'Overview', route: 'soccer/overview' },
         { label: 'Teams', route: 'soccer/teams' },
         { label: 'Matches', route: 'soccer/matches' },
+        { label: 'Tournaments', route: 'soccer/tournaments' },
         /* { label: 'Events', route: '/soccer/events' }, */
         /* { label: 'Points Table', route: '/soccer/points-table' }, */
       ],

@@ -48,3 +48,12 @@ export const deleteTournament = catchAsync(async (req, res) => {
         data: deleted
     };
 });
+
+export const getBracket = catchAsync(async (req, res) => {
+    const id = parseInt(req.params.tournamentId as string, 10)
+    const bracket = await tournamentService.getBracket(id);
+    if (!bracket) {
+        return res.status(404).json({ error: 'Torneo no encontrado' });
+    }
+    res.json(bracket);
+});
