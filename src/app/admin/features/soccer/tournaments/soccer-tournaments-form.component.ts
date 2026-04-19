@@ -41,7 +41,7 @@ export class soccerTournamentsFormComponent {
     start_date: ''
   };
   editingTournament: any;
-  name: string = ''
+  name?: string = ''
   editSubmitted = false;
   registeredTeams = signal<RegisteredTeam[]>([])
   teamToRegister: any

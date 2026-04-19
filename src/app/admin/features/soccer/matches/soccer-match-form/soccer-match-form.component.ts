@@ -68,7 +68,7 @@ export class SoccerMatchFormComponent implements OnInit {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 16;
+  private tournamentId = 3;
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }
