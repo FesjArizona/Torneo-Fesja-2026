@@ -2,15 +2,18 @@
   "name": "sports-tournaments",
   "version": "0.0.0",
   
-  "scripts": {
-    "ng": "ng",
-    "start": "nx serve",
-    "build": "nx build",
-    "build:api": "tsc -p api/tsconfig.json",
-    "start:api": "node api/dist/index.js",
-    "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\"",
-    "start:prod": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run build && npm run start\" \"npm run build:api && npm run start:api\""
-  },
+"scripts": {
+  "ng": "ng",
+  "start": "nx serve",
+  "build": "nx build",
+  "build:api": "tsc -p api/tsconfig.json",
+  "start:api": "node api/dist/index.js",
+  "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\"",
+  "setup-env": "node scripts/setup-env.js",
+  "build:prod": "npm run setup-env && npm run build && npm run build:api",
+  "start:prod": "node api/dist/index.js"
+},
+
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
