@@ -36,6 +36,9 @@ export async function registerResult(id: number, data: any) {
     // Actualizar tabla de posiciones automáticamente
     await standingsModel.recalculate(match.tournament_id, match.home_team_id, match.away_team_id, score_home, score_away, match.group_id, sport_stats);
 
+    await matchModel.updateNextRoundMatch(match.tournament_id, id, winner_team_id)
+
+
     return matchModel.findById(id);
 }
 
@@ -58,3 +61,4 @@ export async function updateStatus(id: number, status: string) {
     await matchModel.updateStatus(id, status, extra);
     return matchModel.findById(id);
 }
+

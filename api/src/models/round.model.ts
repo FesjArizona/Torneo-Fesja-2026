@@ -15,7 +15,7 @@ export async function findByTournament(tournamentId: number) {
       r.created_at,
       COUNT(m.id)   AS matches_count
     FROM rounds r
-    LEFT JOIN groups  g ON g.id = r.group_id
+    LEFT JOIN \`groups\` g ON g.id = r.group_id
     LEFT JOIN matches m ON m.round_id = r.id
     WHERE r.tournament_id = ?
     GROUP BY r.id

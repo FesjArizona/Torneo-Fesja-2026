@@ -2,7 +2,7 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { pool } from '../db/connection';
 import { Tournament } from '../types/Tournaments.interface';
 
-export async function findTournaments() {
+export async function findTournaments(sportId: number) {
   const [rows] = await pool.query<RowDataPacket[]>(`
     SELECT
       t.id,
@@ -20,8 +20,9 @@ export async function findTournaments() {
       s.slug AS sport_slug
     FROM tournaments t
     JOIN sports s ON s.id = t.sport_id
+    WHERE s.id = ?
     ORDER BY t.created_at DESC
-  `);
+  `, [sportId]);
   return rows;
 }
 
@@ -82,4 +83,64 @@ export async function updateTournament(id: number, fields: any) {
 // Elimina un torneo por id
 export async function deleteTournament(id: number) {
   await pool.query('DELETE FROM tournaments WHERE id = ?', [id]);
+}
+
+// Rondas ordenadas por round_order ASC
+export async function findRounds(tournamentId: number) {
+  const [rows] = await pool.query<RowDataPacket[]>(`
+    SELECT
+      id,
+      name,
+      round_order,
+      type,
+      status
+    FROM rounds
+    WHERE tournament_id = ?
+    ORDER BY round_order ASC
+  `, [tournamentId]);
+  return rows;
+}
+
+// Todos los partidos del torneo con nombres de equipos
+export async function findMatches(tournamentId: number) {
+  const [rows] = await pool.query<RowDataPacket[]>(`
+    SELECT
+      m.id,
+      m.round_id,
+      m.home_team_id,
+      ht.name       AS home_team,
+      ht.short_name AS home_short,
+      m.away_team_id,
+      at.name       AS away_team,
+      at.short_name AS away_short,
+      m.score_home,
+      m.score_away,
+      m.sport_stats,
+      m.winner_team_id,
+      m.status,
+      m.scheduled_at
+    FROM matches m
+    JOIN teams ht ON ht.id = m.home_team_id
+    JOIN teams at ON at.id = m.away_team_id
+    WHERE m.tournament_id = ?
+    ORDER BY m.round_id ASC, m.id ASC
+  `, [tournamentId]);
+  return rows;
+}
+
+// Todos los equipos inscritos y confirmados en el torneo
+// El service filtrará cuáles tienen BYE comparando con los que tienen partido en ronda 1
+export async function findByeTeams(tournamentId: number) {
+  const [rows] = await pool.query<RowDataPacket[]>(`
+    SELECT
+      tt.team_id,
+      tt.seed,
+      t.name       AS team_name,
+      t.short_name
+    FROM tournament_teams tt
+    JOIN teams t ON t.id = tt.team_id
+    WHERE tt.tournament_id = ? AND tt.status = 'confirmed'
+    ORDER BY tt.seed ASC
+  `, [tournamentId]);
+  return rows;
 }

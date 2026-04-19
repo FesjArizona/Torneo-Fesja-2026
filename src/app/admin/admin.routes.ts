@@ -40,6 +40,12 @@ export const ADMIN_ROUTES: Routes = [
             loadComponent: () =>
               import('./features/soccer/matches/soccer-match-form/soccer-match-form.component')
                 .then(m => m.SoccerMatchFormComponent),
+          },
+          {
+            path: 'tournaments',
+            loadComponent: () =>
+              import('./features/soccer/tournaments/soccer-tournaments-form.component')
+                .then(m => m.soccerTournamentsFormComponent),
           }
         ],
       },
@@ -70,6 +76,12 @@ export const ADMIN_ROUTES: Routes = [
             loadComponent: () =>
               import('./features/volleyball/matches/volleyball-match-form/volleyball-match-form.component')
                 .then(m => m.VolleyballMatchFormComponent),
+          },
+          {
+            path: 'tournaments',
+            loadComponent: () =>
+              import('./features/volleyball/tournaments/volleyball-tournaments-form.component')
+                .then(m => m.volleyballTournamentsFormComponent),
           }
         ]
       },
@@ -100,6 +112,12 @@ export const ADMIN_ROUTES: Routes = [
             loadComponent: () =>
               import('./features/basketball/matches/basketball-match-form/basketball-match-form.component')
                 .then(m => m.BasketballMatchFormComponent),
+          },
+          {
+            path: 'tournaments',
+            loadComponent: () =>
+              import('./features/basketball/tournaments/basketball-tournaments-form.component')
+                .then(m => m.basketballTournamentsFormComponent),
           }
         ]
       },

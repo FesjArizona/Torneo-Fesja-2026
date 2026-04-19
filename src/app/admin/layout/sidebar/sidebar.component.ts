@@ -25,7 +25,7 @@ interface NavItem {
 })
 export class SidebarComponent {
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   isCollapsed = false;
 
@@ -43,6 +43,7 @@ export class SidebarComponent {
         { label: 'Overview', route: 'soccer/overview' },
         { label: 'Teams', route: 'soccer/teams' },
         { label: 'Matches', route: 'soccer/matches' },
+        { label: 'Tournaments', route: 'soccer/tournaments' },
         /* { label: 'Events', route: '/soccer/events' }, */
         /* { label: 'Points Table', route: '/soccer/points-table' }, */
       ],
@@ -56,6 +57,7 @@ export class SidebarComponent {
         { label: 'Overview', route: 'volleyball/overview' },
         { label: 'Teams', route: 'volleyball/teams' },
         { label: 'Matches', route: 'volleyball/matches' },
+        { label: 'Tournaments', route: 'volleyball/tournaments' },
         /* { label: 'Events', route: '/volleyball/events' }, */
         /* { label: 'Points Table', route: '/volleyball/points-table' }, */
       ],
@@ -69,6 +71,7 @@ export class SidebarComponent {
         { label: 'Overview', route: 'basketball/overview' },
         { label: 'Teams', route: 'basketball/teams' },
         { label: 'Matches', route: 'basketball/matches' },
+        { label: 'Tournaments', route: 'basketball/tournaments' },
         /* { label: 'Events', route: '/basketball/events' }, */
         /* { label: 'Points Table', route: '/basketball/points-table' }, */
       ],
