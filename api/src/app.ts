@@ -20,10 +20,9 @@ const angularPath = path.join(__dirname, '../../dist/sports-tournaments');
 console.log('Ruta de Angular detectada:', angularPath);
 app.use(express.static(angularPath));
 
-app.get('.*', (req, res) => {
+app.get(/.*/, (req, res) => {
     res.sendFile(path.join(angularPath, 'index.html'));
 });
-
 // app.use((req, res) => {
 //     res.status(404).json({ error: 'Ruta no encontrada' });
 // });
