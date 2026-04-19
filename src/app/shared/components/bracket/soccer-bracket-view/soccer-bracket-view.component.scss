@@ -67,6 +67,7 @@ $color-winner  : #3b82f6;
   flex-direction: column;
   align-items: center;
   min-width: $card-width;
+  justify-content: center;
 }
 
 .round-title {
@@ -158,11 +159,11 @@ $color-winner  : #3b82f6;
   align-items: center;
 
   &__team { font-size: 13px; font-weight: 600; }
-  &__label { 
-    font-size: 10px; 
-    color: $color-winner; 
-    background: #eff6ff; 
-    padding: 2px 8px; 
-    border-radius: 12px; 
+  &__label {
+    font-size: 10px;
+    color: $color-winner;
+    background: #eff6ff;
+    padding: 2px 8px;
+    border-radius: 12px;
   }
 }

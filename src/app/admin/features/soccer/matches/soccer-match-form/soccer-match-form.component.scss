@@ -289,6 +289,7 @@ $color-winner  : #3b82f6;
   align-items: center;
   gap: 0;
   min-width: $card-width;
+  justify-content: center;
 }
 
 .round-title {
@@ -539,6 +540,7 @@ $color-winner : #3b82f6;
   flex-direction: column;
   align-items: center;
   min-width: $card-width;
+  justify-content: center;
 }
 
 .round-title {
