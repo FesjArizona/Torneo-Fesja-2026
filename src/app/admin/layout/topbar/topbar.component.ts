@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../auth/auth/service/auth.service';
+
+interface UserData {
+  name: string,
+  role: string,
+}
 
 @Component({
   standalone: true,
@@ -10,7 +16,18 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent {
+  user: UserData = {} as UserData
+  constructor(
+    private authService: AuthService,
+  ) { }
 
+  ngOnInit() {
+    const user = this.authService.getUser();
+    if (user) {
+      this.user.name = user.email
+      this.user.role = user.role
+    }
+  }
   /* @Input() pageTitle = 'Dashboard';
   @Input() pageBreadcrumb = ''; */
 
@@ -20,11 +37,7 @@ export class TopbarComponent {
   searchQuery = '';
   hasNotifications = true;
 
-  user = {
-    name: 'Developer',
-    role: 'SuperAdmin',
-    avatar: null as string | null,
-  };
+
 
   get initials(): string {
     return this.user.name
