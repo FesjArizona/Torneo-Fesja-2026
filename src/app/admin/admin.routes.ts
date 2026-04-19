@@ -37,7 +37,7 @@ export const ADMIN_ROUTES: Routes = [
                 .then(m => m.SoccerTeamFormComponent),
           },
           {
-            path: 'matches',
+            path: 'matches/:id',
             data: { sport: 'soccer' },
             loadComponent: () =>
               import('./features/soccer/matches/soccer-match-form/soccer-match-form.component')
@@ -75,7 +75,7 @@ export const ADMIN_ROUTES: Routes = [
                 .then(m => m.VolleyballTeamFormComponent),
           },
           {
-            path: 'matches',
+            path: 'matches/:id',
             data: { sport: 'volleyball' },
             loadComponent: () =>
               import('./features/volleyball/matches/volleyball-match-form/volleyball-match-form.component')
@@ -113,7 +113,7 @@ export const ADMIN_ROUTES: Routes = [
                 .then(m => m.BasketballTeamFormComponent),
           },
           {
-            path: 'matches',
+            path: 'matches/:id',
             data: { sport: 'basketball' },
             loadComponent: () =>
               import('./features/basketball/matches/basketball-match-form/basketball-match-form.component')

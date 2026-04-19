@@ -3,6 +3,8 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
+  numberAttribute,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -68,7 +70,7 @@ export class BasketballMatchFormComponent {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 20;
+  @Input({ alias: 'id', transform: numberAttribute }) tournamentId: number = 0;
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }

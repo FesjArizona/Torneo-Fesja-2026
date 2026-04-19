@@ -4,7 +4,7 @@
     class="tournament-page__header d-flex align-items-start justify-content-between"
   >
     <div>
-      <h2 class="tournament-page__title">Soccer - Tabla de torneos</h2>
+      <h2 class="tournament-page__title">Volleyball - Tabla de torneos</h2>
       <p class="tournament-page__subtitle">
         Registrar, actualizar y eliminar torneos de fútbol.
       </p>
@@ -83,6 +83,25 @@
               <div
                 class="tournament-table__actions d-flex justify-content-end gap-2"
               >
+                <button
+                  class="action-btn action-btn--edit"
+                  aria-label="Edit"
+                  (click)="irAlTorneo(tournament.id)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
                 <button
                   class="action-btn action-btn--edit"
                   aria-label="Edit"

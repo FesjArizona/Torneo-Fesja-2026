@@ -3,8 +3,10 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnInit,
   ViewChild,
+  numberAttribute
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -28,7 +30,7 @@ interface MatchScore {
   styleUrls: ['./soccer-match-form.component.scss'],
 })
 export class SoccerMatchFormComponent implements OnInit {
-
+  @Input({ alias: 'id', transform: numberAttribute }) tournamentId: number = 0;
   // ── Estado ────────────────────────────────────────────────────────────────
   tournamentData: TournamentBracket | null = null;
   loading = true;
@@ -54,6 +56,7 @@ export class SoccerMatchFormComponent implements OnInit {
       this.tryDrawLines();
     }
   }
+  
 
   private tryDrawLines(): void {
     // Solo intentamos el dibujo si ya tenemos los datos del torneo
@@ -68,7 +71,7 @@ export class SoccerMatchFormComponent implements OnInit {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 4;
+
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }

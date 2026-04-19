@@ -7,6 +7,7 @@ import { CreateTeam, EditTeam, Team } from 'src/app/interfaces/teams.interface';
 import { CreateTournament, EditTournament, RegisteredTeam, Tournament } from 'src/app/interfaces/tournament.interface';
 import { TournamentService } from 'src/app/services/tournament.service';
 import { TeamsService } from 'src/app/services/teams.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -16,6 +17,7 @@ import { TeamsService } from 'src/app/services/teams.service';
   styleUrls: ['./volleyball-tournaments-form.component.scss'],
 })
 export class volleyballTournamentsFormComponent {
+  private router = inject(Router);
   private readonly tournamentService = inject(TournamentService)
   private readonly teamsService = inject(TeamsService)
   public tournament = signal<Tournament[]>([]);
@@ -74,6 +76,11 @@ export class volleyballTournamentsFormComponent {
       },
     })
 
+  }
+
+
+ irAlTorneo(id: number) {
+    this.router.navigate(['admin/volleyball/matches', id]); 
   }
 
   loadRegisteredTeams(id: number) {

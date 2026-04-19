@@ -3,6 +3,9 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
+  Input,
+  numberAttribute,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -13,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BracketService } from 'src/app/services/bracket.service';
 import { TournamentBracket, Round, Match } from 'src/app/interfaces/brackets.interface';
 import { FormsModule } from '@angular/forms'
+import { Router } from '@angular/router';
 
 interface MatchScore {
   scoreHome: number | null;
@@ -68,7 +72,7 @@ export class VolleyballMatchFormComponent {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 1;
+  @Input({ alias: 'id', transform: numberAttribute }) tournamentId: number = 0;
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }
@@ -106,6 +110,7 @@ export class VolleyballMatchFormComponent {
     });
   }
 
+  
   private initScores(data: TournamentBracket): void {
     for (const round of data.bracket) {
       for (const match of round.matches) {

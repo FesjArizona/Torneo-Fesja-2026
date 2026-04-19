@@ -7,6 +7,7 @@ import { CreateTeam, EditTeam, Team } from 'src/app/interfaces/teams.interface';
 import { CreateTournament, EditTournament, RegisteredTeam, Tournament } from 'src/app/interfaces/tournament.interface';
 import { TournamentService } from 'src/app/services/tournament.service';
 import { TeamsService } from 'src/app/services/teams.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -34,6 +35,7 @@ export class soccerTournamentsFormComponent {
     location: ''
   };
   tournamentName: string = ''
+  private router = inject(Router);
 
   editForm: EditTournament = {
     id: 0,
@@ -126,7 +128,13 @@ export class soccerTournamentsFormComponent {
       modal.show();
     }
   }
+  irAlTorneo(id: number) {
+    // Aquí puedes poner cualquier otra lógica que necesites antes de navegar
+    console.log('Preparando todo para ir al torneo:', id);
 
+    // Y finalmente hacemos el cambio de pantalla
+    this.router.navigate(['admin/soccer/matches', id]);
+  }
   deleteTournament(id: number): void {
     this.tournamentService.delete(id).subscribe({
       next: (response: ApiResponse<any>) => {
