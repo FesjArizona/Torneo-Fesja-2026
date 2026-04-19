@@ -31,7 +31,7 @@ export const sportGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
     // Sin acceso → redirigir al deporte que sí tiene asignado
     const user = authService.getUser();
     if (user?.sport) {
-        router.navigate(['/admin', user.sport, 'overview']);
+        router.navigate(['/admin', user.sport, 'tournaments']);
     } else {
         router.navigate(['/admin']);
     }

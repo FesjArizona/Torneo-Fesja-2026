@@ -1,14 +1,15 @@
 {
   "name": "sports-tournaments",
   "version": "0.0.0",
+  
   "scripts": {
     "ng": "ng",
     "start": "nx serve",
     "build": "nx build",
-    "watch": "nx build --watch --configuration development",
-    "test": "nx test",
-    "start:api": "nodemon --watch api/src --ext ts --exec ts-node api/src/index.ts",
-    "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\""
+    "build:api": "tsc -p api/tsconfig.json",
+    "start:api": "node api/dist/index.js",
+    "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\"",
+    "start:prod": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run build && npm run start\" \"npm run build:api && npm run start:api\""
   },
   "private": true,
   "dependencies": {
