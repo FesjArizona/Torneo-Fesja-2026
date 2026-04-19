@@ -12,7 +12,7 @@ import { ResultTableService } from 'src/app/services/result-table.service';
   styleUrls: ['./soccer-position-table.component.scss']
 })
 export class SoccerPositionTableComponent {
-  tournamentId: number = 3
+  tournamentId: number = 1;
   standingData: Standings[] = []
   constructor(private resultTableService: ResultTableService) { }
 

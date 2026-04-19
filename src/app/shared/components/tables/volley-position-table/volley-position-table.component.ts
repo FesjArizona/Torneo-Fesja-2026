@@ -13,7 +13,7 @@ import { ApiResponse } from 'src/app/interfaces/api.interface';
 })
 
 export class VolleyPositionTableComponent {
-  tournamentId: number = 3
+  tournamentId: number = 2;
   standingData: Standings[] = []
   constructor(private resultTableService: ResultTableService) { }
   ngOnInit() {

@@ -27,7 +27,7 @@ export class BasketBracketViewComponent {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 20;
+  private tournamentId = 3;
 
   constructor(private bracketService: BracketService) { }
 

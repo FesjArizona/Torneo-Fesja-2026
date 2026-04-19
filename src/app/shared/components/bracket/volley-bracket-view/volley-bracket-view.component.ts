@@ -28,7 +28,7 @@ export class VolleyBracketViewComponent {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 19;
+  private tournamentId = 2;
 
   constructor(private bracketService: BracketService) { }
 
