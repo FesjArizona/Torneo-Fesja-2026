@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 import * as authModel from './../models/auth.model';
 import { env } from '../config/environment';
+import { catchAsync, AppError } from '../middlewares/errorHandler';
 
 
 const SECRET = env.JWT_SECRET;
@@ -11,18 +12,18 @@ export async function login(email: string, password: string) {
     // 1. Buscar usuario por email
     const user = await authModel.findByEmail(email);
     if (!user) {
-        return 1
+        throw new AppError(400, 'credenciales incorrectas');
     }
 
     // 2. Verificar que la cuenta esté activa
     if (!user.active) {
-        return 2
+        throw new AppError(400, 'credenciales incorrectas');
     }
 
     // 3. Comparar password con el hash
     const valid = await bcrypt.compare(password, user.password_hash);
     if (!valid) {
-        return 3
+        throw new AppError(400, 'credenciales incorrectas');
     }
 
     // 4. Generar JWT con la información del usuario

@@ -96,7 +96,6 @@ export class SoccerMatchFormComponent implements OnInit {
       next: (response: TournamentBracket) => {
         this.tournamentData = response;
         this.initScores(response);
-        console.log(response)
         this.loading = false;
         this.tryDrawLines();
       },

@@ -47,4 +47,8 @@ export class TopbarComponent {
       .toUpperCase();
   }
 
+  logout() {
+    this.authService.logout()
+  }
+
 }

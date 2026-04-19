@@ -48,11 +48,15 @@ export class AuthComponent implements OnInit {
         this.redirectAfterLogin();
       },
       error: (err) => {
+        alert('usuario o contraseña incorrectos')
         this.loading = false;
         this.error = err.error?.error || 'Credenciales incorrectas';
       },
     });
   }
+
+  
+
 
   // Redirigir según el rol y deporte del usuario
   private redirectAfterLogin() {
@@ -60,15 +64,12 @@ export class AuthComponent implements OnInit {
     if (!user) return;
 
     if (user.role === 'admin') {
-      console.log('entra aqui')
       // Admin general → overview de soccer por defecto
       this.router.navigate(['/admin/soccer/overview']);
     } else if (user.sport) {
-       console.log('entra aqui2')
       // Admin de deporte → su propio deporte
       this.router.navigate([`/admin/${user.sport}/overview`]);
     } else {
-       console.log('entra aqui 3')
       this.router.navigate(['/admin']);
     }
   }
