@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  
+
 
 
   // Redirigir según el rol y deporte del usuario
@@ -65,10 +65,10 @@ export class AuthComponent implements OnInit {
 
     if (user.role === 'admin') {
       // Admin general → overview de soccer por defecto
-      this.router.navigate(['/admin/soccer/overview']);
+      this.router.navigate(['/admin/soccer/teams']);
     } else if (user.sport) {
       // Admin de deporte → su propio deporte
-      this.router.navigate([`/admin/${user.sport}/overview`]);
+      this.router.navigate([`/admin/${user.sport}/teams`]);
     } else {
       this.router.navigate(['/admin']);
     }

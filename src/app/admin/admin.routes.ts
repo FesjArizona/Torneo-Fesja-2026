@@ -11,7 +11,7 @@ export const ADMIN_ROUTES: Routes = [
 
       {
         path: '',
-        redirectTo: 'soccer/overview',
+        redirectTo: 'soccer/teams',
         pathMatch: 'full',
       },
 
@@ -21,14 +21,14 @@ export const ADMIN_ROUTES: Routes = [
         canActivateChild: [sportGuard],  // ← solo admin o admin_sport soccer
         data: { sport: 'soccer' },
         children: [
-          { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          {
+          { path: '', redirectTo: 'teams', pathMatch: 'full' },
+          /*{
             path: 'overview',
             data: { sport: 'soccer' },
             loadComponent: () =>
               import('./features/soccer/overview-soccer/overview-soccer.component')
                 .then(m => m.OverviewSoccerComponent),
-          },
+          }, */
           {
             path: 'teams',
             data: { sport: 'soccer' },
@@ -59,14 +59,14 @@ export const ADMIN_ROUTES: Routes = [
         canActivateChild: [sportGuard],
         data: { sport: 'volleyball' },
         children: [
-          { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          {
+          { path: '', redirectTo: 'teams', pathMatch: 'full' },
+          /* {
             path: 'overview',
             data: { sport: 'volleyball' },
             loadComponent: () =>
               import('./features/volleyball/overview-volleyball/overview-volleyball.component')
                 .then(m => m.OverviewVolleyballComponent),
-          },
+          }, */
           {
             path: 'teams',
             data: { sport: 'volleyball' },
@@ -97,14 +97,14 @@ export const ADMIN_ROUTES: Routes = [
         canActivateChild: [sportGuard],
         data: { sport: 'basketball' },
         children: [
-          { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          {
+          { path: '', redirectTo: 'teams', pathMatch: 'full' },
+          /* {
             path: 'overview',
             data: { sport: 'basketball' },
             loadComponent: () =>
               import('./features/basketball/overview-basketball/overview-basketball.component')
                 .then(m => m.OverviewBasketballComponent),
-          },
+          }, */
           {
             path: 'teams',
             data: { sport: 'basketball' },
@@ -131,7 +131,7 @@ export const ADMIN_ROUTES: Routes = [
 
       {
         path: '**',
-        redirectTo: 'soccer/overview',
+        redirectTo: 'soccer/teams',
       },
     ],
   },
