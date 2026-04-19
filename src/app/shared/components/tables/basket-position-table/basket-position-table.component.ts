@@ -23,7 +23,7 @@ export class BasketPositionTableComponent {
 
       },
       error: () => {
-        alert('Algo salio mal')
+        /* alert('Algo salio mal') */
       },
     });
   }

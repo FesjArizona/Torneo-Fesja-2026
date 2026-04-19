@@ -9,6 +9,7 @@
 /* columnas fijas */
 .sticky-col {
   position: sticky;
+  background-color: rgb(255, 255, 255);
   left: 0;
   background: inherit; // mantiene estilo Bootstrap
 }
@@ -30,6 +31,7 @@
 
 /* asegurar encabezado por encima */
 thead .sticky-col {
+  background-color: rgb(255, 255, 255);
   z-index: 3;
 }
 

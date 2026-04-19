@@ -35,6 +35,6 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     position: relative;
 }
