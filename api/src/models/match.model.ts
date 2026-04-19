@@ -2,7 +2,7 @@ import { pool } from '../db/connection';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 export async function findByTournament(tournamentId: number, filters: any = {}) {
-    let query = `
+  let query = `
     SELECT
       m.id,
       m.tournament_id,
@@ -30,25 +30,25 @@ export async function findByTournament(tournamentId: number, filters: any = {}) 
     JOIN teams  at ON at.id = m.away_team_id
     WHERE m.tournament_id = ?
   `;
-    const params = [tournamentId];
+  const params = [tournamentId];
 
-    if (filters.status) {
-        query += ' AND m.status = ?';
-        params.push(filters.status);
-    }
-    if (filters.round_id) {
-        query += ' AND m.round_id = ?';
-        params.push(filters.round_id);
-    }
+  if (filters.status) {
+    query += ' AND m.status = ?';
+    params.push(filters.status);
+  }
+  if (filters.round_id) {
+    query += ' AND m.round_id = ?';
+    params.push(filters.round_id);
+  }
 
-    query += ' ORDER BY m.scheduled_at ASC, m.id ASC';
+  query += ' ORDER BY m.scheduled_at ASC, m.id ASC';
 
-    const [rows] = await pool.query<RowDataPacket[]>(query, params);
-    return rows;
+  const [rows] = await pool.query<RowDataPacket[]>(query, params);
+  return rows;
 }
 
 export async function findById(id: number) {
-    const [rows] = await pool.query<RowDataPacket[]>(`
+  const [rows] = await pool.query<RowDataPacket[]>(`
     SELECT
       m.id,
       m.tournament_id,
@@ -78,10 +78,10 @@ export async function findById(id: number) {
     WHERE m.id = ?
   `, [id]);
 
-    if (!rows[0]) return null;
+  if (!rows[0]) return null;
 
-    // Eventos del partido
-    const [events] = await pool.query(`
+  // Eventos del partido
+  const [events] = await pool.query(`
     SELECT
       me.id,
       me.event_type,
@@ -98,26 +98,26 @@ export async function findById(id: number) {
     ORDER BY me.id ASC
   `, [id]);
 
-    return { ...rows[0], events };
+  return { ...rows[0], events };
 }
 
 export async function insert(tournamentId: number, data: any) {
-    const [result] = await pool.query<ResultSetHeader>(`
+  const [result] = await pool.query<ResultSetHeader>(`
     INSERT INTO matches (tournament_id, round_id, home_team_id, away_team_id, scheduled_at, venue)
     VALUES (?, ?, ?, ?, ?, ?)
   `, [
-        tournamentId,
-        data.round_id,
-        data.home_team_id,
-        data.away_team_id,
-        data.scheduled_at || null,
-        data.venue || null,
-    ]);
-    return result.insertId;
+    tournamentId,
+    data.round_id,
+    data.home_team_id,
+    data.away_team_id,
+    data.scheduled_at || null,
+    data.venue || null,
+  ]);
+  return result.insertId;
 }
 
 export async function updateResult(id: number, data: any) {
-    await pool.query(`
+  await pool.query(`
     UPDATE matches
     SET score_home     = ?,
         score_away     = ?,
@@ -127,18 +127,47 @@ export async function updateResult(id: number, data: any) {
         finished_at    = NOW()
     WHERE id = ?
   `, [
-        data.score_home,
-        data.score_away,
-        data.sport_stats ? JSON.stringify(data.sport_stats) : null,
-        data.winner_team_id,
-        id,
-    ]);
+    data.score_home,
+    data.score_away,
+    data.sport_stats ? JSON.stringify(data.sport_stats) : null,
+    data.winner_team_id,
+    id,
+  ]);
 }
 
 export async function updateStatus(id: number, status: string, extra = {}) {
-    const fields = { status, ...extra };
-    const keys = Object.keys(fields);
-    const values = Object.values(fields);
-    const set = keys.map(k => `${k} = ?`).join(', ');
-    await pool.query(`UPDATE matches SET ${set} WHERE id = ?`, [...values, id]);
+  const fields = { status, ...extra };
+  const keys = Object.keys(fields);
+  const values = Object.values(fields);
+  const set = keys.map(k => `${k} = ?`).join(', ');
+  await pool.query(`UPDATE matches SET ${set} WHERE id = ?`, [...values, id]);
+}
+
+export async function updateNextRoundMatch(tournamentId: number, prevMatchId: number, teamId: number) {
+
+
+  const [rows]: any = await pool.query<RowDataPacket[]>(`
+    SELECT id, prev_match_home_id, prev_match_away_id 
+    FROM matches 
+    WHERE tournament_id = ? 
+      AND (prev_match_home_id = ? OR prev_match_away_id = ?)
+    LIMIT 1;
+  `, [tournamentId, prevMatchId, prevMatchId]);
+
+  if (rows.length === 0) {
+    return false;
+  }
+  const nextMatch = rows[0];
+  const nextMatchId = nextMatch.id;
+  
+  const columnaAActualizar = (nextMatch.prev_match_home_id === prevMatchId)
+    ? 'home_team_id'
+    : 'away_team_id';
+
+  await pool.query(
+    `UPDATE matches SET ${columnaAActualizar} = ? WHERE id = ?`,
+    [teamId, nextMatchId]
+  );
+
+  console.log(`Ganador avanzado al partido ${nextMatchId} en el espacio de ${columnaAActualizar}`);
 }

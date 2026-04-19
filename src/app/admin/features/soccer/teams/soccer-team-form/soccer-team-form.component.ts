@@ -3,10 +3,24 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiResponse } from 'src/app/interfaces/api.interface';
-import { CreateTeam, EditTeam, Team} from 'src/app/interfaces/teams.interface';
+import { CreateTeam, EditTeam, Team as Team_ } from 'src/app/interfaces/teams.interface';
 import { TeamsService } from 'src/app/services/teams.service';
 
 type TeamStatus = 'Active' | 'Suspended' | 'Disqualified' | 'Inactive';
+
+interface Team {
+  id: number;
+  name: string;
+  coach: string;
+  players: number;
+  status: TeamStatus;
+}
+
+interface RegisterForm {
+  name: string;
+  coach: string;
+  players: number | null;
+}
 
 @Component({
   standalone: true,
@@ -17,7 +31,7 @@ type TeamStatus = 'Active' | 'Suspended' | 'Disqualified' | 'Inactive';
 })
 export class SoccerTeamFormComponent {
 
-  public teams = signal<Team[]>([]);
+  public teams = signal<Team_[]>([]);
 
   private readonly teamsService = inject(TeamsService)
 
@@ -27,7 +41,7 @@ export class SoccerTeamFormComponent {
 
   private loadTeams(): void {
     this.teamsService.getAllTeams().subscribe({
-      next: (response: ApiResponse<Team[]>) => {
+      next: (response: ApiResponse<Team_[]>) => {
         this.teams.set(response.data)
       },
       error: (error: HttpErrorResponse) => {
@@ -63,7 +77,7 @@ export class SoccerTeamFormComponent {
   registerSubmitted = false;
 
   // ── Edit ────────────────────────────────────────────────────────────────────
-  editingTeam: Team | null = null;
+  editingTeam: Team_ | null = null;
   editForm: EditTeam = {
     id: 0,
     name: '',
@@ -196,6 +210,7 @@ export class SoccerTeamFormComponent {
         alert('Algo salió mal')
       },
       complete: () => {
+
       },
     })
   }

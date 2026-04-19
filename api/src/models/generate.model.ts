@@ -94,3 +94,32 @@ export async function updateTournamentStatus(tournamentId: number, status: strin
     );
 }
 
+export async function linkPrevMatch(nextMatchId: number, prevMatchId: number, isHomeSlot: boolean) {
+    const column = isHomeSlot ? 'prev_match_home_id' : 'prev_match_away_id';
+    const sql = `UPDATE matches SET ${column} = ? WHERE id = ?`;
+    return await pool.query<ResultSetHeader>(sql, [prevMatchId, nextMatchId]);
+}
+
+export async function updateMatchTeam(matchId: number, teamId: number, isHomeSlot: boolean) {
+    const column = isHomeSlot ? 'home_team_id' : 'away_team_id';
+    const sql = `UPDATE matches SET ${column} = ? WHERE id = ?`;
+    return await pool.query<ResultSetHeader>(sql, [teamId, matchId]);
+}
+
+export async function setMatchParents(matchId: number, homeParentId: number, awayParentId: number) {
+    return await pool.query(
+        `UPDATE matches SET prev_match_home_id = ?, prev_match_away_id = ? WHERE id = ?`,
+        [homeParentId, awayParentId, matchId]
+    );
+}
+
+export async function setTeamsInMatch(matchId: number, homeTeamId: number, awayTeamId: number) {
+    return await pool.query(
+        `UPDATE matches 
+     SET home_team_id = ?, 
+         away_team_id = ? 
+     WHERE id = ?`,
+        [homeTeamId, awayTeamId, matchId]
+    );
+}  
+

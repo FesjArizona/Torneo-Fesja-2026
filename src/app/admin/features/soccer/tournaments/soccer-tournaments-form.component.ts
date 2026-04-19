@@ -238,7 +238,7 @@ export class soccerTournamentsFormComponent {
   }
 
   registerTeam() {
-    const lastSeed = Math.max(...this.registeredTeams().map(team => team.seed));
+    const lastSeed = Math.max(0, ...this.registeredTeams().map(team => team.seed));
     this.tournamentService.registerTeam(this.teamToRegister, lastSeed + 1, this.currentTournament).subscribe({
       next: (response: ApiResponse<any>) => {
         this.loadRegisteredTeams(this.currentTournament)
