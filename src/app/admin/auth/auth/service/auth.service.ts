@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ApiResponse } from 'src/app/interfaces/api.interface';
+import { URL_API } from '../../../../environment/environment';
 
 export interface AuthUser {
     id: number;
@@ -19,7 +20,6 @@ interface LoginResponse {
 
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth_user';
-const API_URL = 'http://localhost:3000/api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
     // ── Login ─────────────────────────────────────────────────────────────────
 
     login(email: string, password: string): Observable<ApiResponse<LoginResponse>> {
-        return this.http.post<ApiResponse<LoginResponse>>(`${API_URL}/auth/login`, { email, password }).pipe(
+        return this.http.post<ApiResponse<LoginResponse>>(`${URL_API}/auth/login`, { email, password }).pipe(
             tap(response => {
                 localStorage.setItem(TOKEN_KEY, response.data.token);
                 localStorage.setItem(USER_KEY, JSON.stringify(response.data.user));
