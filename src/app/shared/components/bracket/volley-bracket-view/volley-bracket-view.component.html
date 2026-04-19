@@ -27,7 +27,7 @@
 
   <div class="bracket-error" *ngIf="error && !loading">
     <p>{{ error }}</p>
-    <button (click)="loadBracket()">Reintentar</button>
+    <button (click)="loadBracket()" class="btn btn-secondary">Reintentar</button>
   </div>
 
   <div class="bracket-scroll" *ngIf="tournamentData && !loading">

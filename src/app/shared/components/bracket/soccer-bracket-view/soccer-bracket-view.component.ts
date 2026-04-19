@@ -7,8 +7,8 @@ import { TournamentBracket, Match } from 'src/app/interfaces/brackets.interface'
 
 @Component({
   standalone: true,
-  selector: 'app-soccer-bracket-view', 
-  imports: [CommonModule], 
+  selector: 'app-soccer-bracket-view',
+  imports: [CommonModule],
   templateUrl: './soccer-bracket-view.component.html',
   styleUrls: ['./soccer-bracket-view.component.scss'],
 })
@@ -28,7 +28,7 @@ export class SoccerBracketViewComponent implements OnInit {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 16;
+  private tournamentId = 3;
 
   constructor(private bracketService: BracketService) { }
 
