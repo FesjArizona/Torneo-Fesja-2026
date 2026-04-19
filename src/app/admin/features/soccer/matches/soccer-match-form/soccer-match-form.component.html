@@ -1,156 +1,195 @@
 <div class="bracket-page">
-  <div class="header mb-4 px-5 pt-4 d-flex align-items-center">
-    <div class="logo-circle shadow-sm me-3">⚽</div>
-    <h2 class="fw-bolder mb-0 text-dark">Torneo Doble Eliminatoria</h2>
+  <!-- Header -->
+  <div class="bracket-header" *ngIf="tournamentData">
+    <div class="bracket-header__sport">
+      {{ getSportLabel(tournamentData.sport) }}
+    </div>
+    <h2 class="bracket-header__title">{{ tournamentData.tournament_name }}</h2>
+    <span
+      class="bracket-header__status"
+      [ngClass]="'badge-' + tournamentData.status"
+    >
+      {{
+        tournamentData.status === 'in_progress'
+          ? 'En curso'
+          : tournamentData.status === 'finished'
+            ? 'Finalizado'
+            : tournamentData.status === 'pending'
+              ? 'Pendiente'
+              : tournamentData.status
+      }}
+    </span>
   </div>
 
-  <div class="bracket-container p-4 overflow-auto custom-scrollbar">
-    <div class="full-bracket position-relative" #bracketContainer>
+  <!-- Loading -->
+  <div class="bracket-loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando bracket...</p>
+  </div>
 
-      <!-- SVG overlay for dynamic D3.js lines -->
-      <svg class="bracket-lines-overlay" #linesOverlay></svg>
+  <!-- Error -->
+  <div class="bracket-error" *ngIf="error && !loading">
+    <p>{{ error }}</p>
+    <button (click)="loadBracket()">Reintentar</button>
+  </div>
 
-      <!-- ============================================ -->
-      <!--            WINNER'S BRACKET                  -->
-      <!-- ============================================ -->
-      <div class="ms-5 section-label">Winner's Bracket</div>
-      <div class="bracket-row winners-bracket justify-content-center">
+  <!-- Bracket -->
+  <div class="bracket-scroll">
+    <div class="bracket-container" #bracketContainer>
+      <svg class="bracket-lines" #linesOverlay></svg>
 
-        <!-- WR1: 4 matches -->
-        <div class="round gap-4">
-          <div class="round-title">RONDA 1</div>
-          <div class="match-pair flex-grow-1 gap-4">
-            <div class="match-node flex-grow-1" *ngFor="let m of bracket.winners[0].slice(0,2)">
-              <div class="card-wrapper" [id]="'node-' + m.id">
-                <app-match-card [match]="m" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
+      <div class="bracket-rounds">
+        <div
+          class="bracket-round"
+          *ngFor="let round of tournamentData?.bracket"
+        >
+          <div class="round-title">{{ round.name }}</div>
+
+          <div class="round-content">
+            <!-- BYEs -->
+            <ng-container *ngIf="round.pases_directos.length > 0">
+              <div class="bye-card" *ngFor="let bye of round.pases_directos">
+                <div class="bye-card__team">{{ bye.name }}</div>
+                <div class="bye-card__label">Pase directo</div>
               </div>
-            </div>
-          </div>
-          <div class="match-pair flex-grow-1 gap-4">
-            <div class="match-node flex-grow-1" *ngFor="let m of bracket.winners[0].slice(2,4)">
-              <div class="card-wrapper" [id]="'node-' + m.id">
-                <app-match-card [match]="m" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
+            </ng-container>
 
-        <div class="spacer-col"></div>
-
-        <!-- WR2: 2 matches -->
-        <div class="round">
-          <div class="round-title">RONDA 2</div>
-          <div class="match-pair flex-grow-1">
-            <div class="match-node flex-grow-1" *ngFor="let m of bracket.winners[1]">
-              <div class="card-wrapper" [id]="'node-' + m.id">
-                <app-match-card [match]="m" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer-col"></div>
-
-        <!-- WR3: 1 match (Winner's Final) -->
-        <div class="round">
-          <div class="round-title">FINAL GANADORES</div>
-          <div class="match-pair flex-grow-1 align-items-center justify-content-center">
-            <div class="match-node">
-              <div class="card-wrapper" [id]="'node-' + bracket.winners[2][0].id">
-                <app-match-card [match]="bracket.winners[2][0]"
-                  (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer-col"></div>
-
-        <!-- Championship -->
-        <div class="d-flex align-items-center justify-content-center">
-          <img src="../../../../../../assets/images/trophy_small.avif" alt="Trophy" class="trophy-img mb-2">
-        </div>
-        <!-- <div class="round">
-          <div class="round-title">CAMPEONATO</div>
-          <div class="match-pair flex-grow-1 align-items-center justify-content-center">
-            <div class="match-node flex-column">
-              <div class="card-wrapper" [id]="'node-' + bracket.championship[0].id">
-                <app-match-card [match]="bracket.championship[0]"
-                  (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-              <div class="reset-label text-muted small mt-3 text-center" *ngIf="bracket.championship[1]">
-                <div class="card-wrapper mt-3" [id]="'node-' + bracket.championship[1].id">
-                  <app-match-card [match]="bracket.championship[1]"
-                    (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
+            <!-- Partidos -->
+            <ng-container *ngIf="round.matches.length > 0; else emptyRound">
+              <div
+                class="match-card"
+                *ngFor="let match of round.matches"
+                [id]="nodeId(round.round_order, match.match_id)"
+                [ngClass]="getMatchStatusClass(match)"
+              >
+                <!-- Header de la tarjeta -->
+                <div class="match-card__header">
+                  <span
+                    class="match-card__status"
+                    [ngClass]="getMatchStatusClass(match)"
+                  >
+                    {{ getMatchStatusLabel(match) }}
+                  </span>
+                  <!-- Botón editar — solo en partidos finalizados -->
+                  <button
+                    class="btn-edit"
+                    *ngIf="scores[match.match_id]?.isFinished"
+                    (click)="reopenMatch(match)"
+                    title="Editar resultado"
+                  >
+                    Editar
+                  </button>
                 </div>
-                <span class="fst-italic">If 1st Loss</span>
+
+                <!-- ── MODO FINALIZADO: mostrar resultado ── -->
+                <ng-container *ngIf="scores[match.match_id]?.isFinished">
+                  <div
+                    class="match-card__team"
+                    [class.match-card__team--winner]="
+                      isWinner(match, match.home.team_id)
+                    "
+                    [class.match-card__team--loser]="
+                      match.winner_team_id &&
+                      !isWinner(match, match.home.team_id)
+                    "
+                  >
+                    <span class="match-card__team-name">{{
+                      match.home.team_id ? match.home.name : 'TBD'
+                    }}</span>
+                    <span class="match-card__score">{{
+                      scores[match.match_id].scoreHome ?? '-'
+                    }}</span>
+                  </div>
+                  <div class="match-card__divider"></div>
+                  <div
+                    class="match-card__team"
+                    [class.match-card__team--winner]="
+                      isWinner(match, match.away.team_id)
+                    "
+                    [class.match-card__team--loser]="
+                      match.winner_team_id &&
+                      !isWinner(match, match.away.team_id)
+                    "
+                  >
+                    <span class="match-card__team-name">{{
+                      match.away.team_id ? match.away.name : 'TBD'
+                    }}</span>
+                    <span class="match-card__score">{{
+                      scores[match.match_id].scoreAway ?? '-'
+                    }}</span>
+                  </div>
+                </ng-container>
+
+                <!-- ── MODO EDICIÓN: inputs de resultado ── -->
+                <ng-container *ngIf="!scores[match.match_id]?.isFinished">
+                  <!-- Equipo local con input -->
+                  <div class="match-card__team-input">
+                    <div class="match-card__team-info">
+                      <span class="match-card__team-name">{{
+                        match.home.team_id ? match.home.name : 'TBD'
+                      }}</span>
+                    </div>
+                    <input
+                      type="number"
+                      class="score-input"
+                      [(ngModel)]="scores[match.match_id].scoreHome"
+                      [disabled]="!hasBothTeams(match)"
+                      min="0"
+                      placeholder="0"
+                    />
+                  </div>
+
+                  <div class="match-card__divider"></div>
+
+                  <!-- Equipo visitante con input -->
+                  <div class="match-card__team-input">
+                    <div class="match-card__team-info">
+                      <span class="match-card__team-name">{{
+                        match.away.team_id ? match.away.name : 'TBD'
+                      }}</span>
+                    </div>
+                    <input
+                      type="number"
+                      class="score-input"
+                      [(ngModel)]="scores[match.match_id].scoreAway"
+                      [disabled]="!hasBothTeams(match)"
+                      min="0"
+                      placeholder="0"
+                    />
+                  </div>
+
+                  <!-- Botón finalizar -->
+                  <button
+                    class="btn-finish"
+                    [class.btn-finish--active]="canFinish(match)"
+                    [disabled]="!canFinish(match)"
+                    (click)="finishMatch(match)"
+                  >
+                    Finalizar partido
+                  </button>
+                </ng-container>
               </div>
-            </div>
+            </ng-container>
+
+            <!-- TBD -->
+            <ng-template #emptyRound>
+              <div class="match-card match-card--tbd">
+                <div class="match-card__team">
+                  <span class="match-card__team-name match-card__team-name--tbd"
+                    >TBD</span
+                  >
+                </div>
+                <div class="match-card__divider"></div>
+                <div class="match-card__team">
+                  <span class="match-card__team-name match-card__team-name--tbd"
+                    >TBD</span
+                  >
+                </div>
+              </div>
+            </ng-template>
           </div>
-        </div> -->
+        </div>
       </div>
-
-      <!-- ============================================ -->
-      <!--            LOSER'S BRACKET                   -->
-      <!-- ============================================ -->
-      <div class="ms-5 mt-5 section-label loser-label">Loser's Bracket</div>
-      <div class="bracket-row losers-bracket justify-content-center">
-
-        <!-- LR1: 2 matches -->
-        <div class="round">
-          <div class="round-title">RONDA L1</div>
-          <div class="match-pair flex-grow-1 gap-4">
-            <div class="match-node flex-grow-1" *ngFor="let m of bracket.losers[0]">
-              <div class="card-wrapper" [id]="'node-' + m.id">
-                <app-match-card [match]="m" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer-col"></div>
-
-        <!-- LR2: 2 matches -->
-        <div class="round">
-          <div class="round-title">RONDA L2</div>
-          <div class="match-pair flex-grow-1 gap-4">
-            <div class="match-node flex-grow-1" *ngFor="let m of bracket.losers[1]">
-              <div class="card-wrapper" [id]="'node-' + m.id">
-                <app-match-card [match]="m" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer-col"></div>
-
-        <!-- LR3: 1 match -->
-        <div class="round">
-          <div class="round-title">RONDA L3</div>
-          <div class="match-pair flex-grow-1 align-items-center justify-content-center">
-            <div class="match-node">
-              <div class="card-wrapper" [id]="'node-' + bracket.losers[2][0].id">
-                <app-match-card [match]="bracket.losers[2][0]" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer-col"></div>
-
-        <!-- LR4: 1 match -->
-        <div class="round">
-          <div class="round-title">RONDA L4</div>
-          <div class="match-pair flex-grow-1 align-items-center justify-content-center">
-            <div class="match-node">
-              <div class="card-wrapper" [id]="'node-' + bracket.losers[3][0].id">
-                <app-match-card [match]="bracket.losers[3][0]" (teamAdvanced)="onTeamAdvanced($event)"></app-match-card>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>

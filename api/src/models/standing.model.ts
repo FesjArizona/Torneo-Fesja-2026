@@ -2,28 +2,26 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { pool } from '../db/connection';
 
 export async function findByTournament(tournamentId: number) {
-    const [rows] = await pool.query<RowDataPacket[]>(`
-    SELECT
-      s.team_id,
-      t.name        AS team_name,
-      t.short_name,
-      g.name        AS group_name,
-      s.played,
-      s.won,
-      s.drawn,
-      s.lost,
-      s.points,
-      s.goals_for,
-      s.goals_against,
-      s.goal_diff,
-      s.sport_stats,
-      s.updated_at
-    FROM standings s
-    JOIN teams  t ON t.id = s.team_id
-    LEFT JOIN groups g ON g.id = s.group_id
-    WHERE s.tournament_id = ?
-    ORDER BY g.name ASC, s.points DESC, s.goal_diff DESC, s.goals_for DESC
-  `, [tournamentId]);
+    const [rows] = await pool.query<RowDataPacket[]>('    SELECT\n' +
+        '      s.team_id,\n' +
+        '      t.name        AS team_name,\n' +
+        '      t.short_name,\n' +
+        '      g.name        AS group_name,\n' +
+        '      s.played,\n' +
+        '      s.won,\n' +
+        '      s.drawn,\n' +
+        '      s.lost,\n' +
+        '      s.points,\n' +
+        '      s.goals_for,\n' +
+        '      s.goals_against,\n' +
+        '      s.goal_diff,\n' +
+        '      s.sport_stats,\n' +
+        '      s.updated_at\n' +
+        '    FROM standings s\n' +
+        '    JOIN teams  t ON t.id = s.team_id\n' +
+        '    LEFT JOIN `groups` g ON g.id = s.group_id\n' + 
+        '    WHERE s.tournament_id = 16\n' +
+        '    ORDER BY g.name ASC, s.points DESC, s.goal_diff DESC, s.goals_for DESC\n', [tournamentId]);
     return rows;
 }
 
