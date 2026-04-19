@@ -23,7 +23,7 @@ export class VolleyPositionTableComponent {
 
       },
       error: () => {
-        alert('Algo salio mal')
+        /* alert('Algo salio mal') */
       },
     });
   }

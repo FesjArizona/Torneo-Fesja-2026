@@ -288,7 +288,7 @@
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
-          Registrar Equipo
+          Registrar Torneo
         </button>
       </div>
     </div>
@@ -427,7 +427,7 @@
   aria-labelledby="tournamentDetailsLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content rmodal">
       <!-- Header -->
       <div class="rmodal__header">
@@ -476,7 +476,7 @@
             <select class="form-field__input" [(ngModel)]="teamToRegister">
               <option value="" disabled selected>Selecciona un equipo</option>
               <option *ngFor="let team of teams()" value="{{ team.id }}">
-                {{ team.name }}
+                {{ team.short_name + ' ' + team.name }}
               </option>
             </select>
           </div>

@@ -23,11 +23,11 @@ export class SoccerPositionTableComponent {
 
       },
       error: () => {
-        alert('Algo salio mal')
+        /* alert('Algo salio mal') */
       },
     });
   }
 
- 
+
 
 }
