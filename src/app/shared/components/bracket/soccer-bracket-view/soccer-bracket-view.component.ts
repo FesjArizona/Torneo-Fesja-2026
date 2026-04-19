@@ -28,7 +28,7 @@ export class SoccerBracketViewComponent implements OnInit {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 16;
+  private tournamentId = 3;
 
   constructor(private bracketService: BracketService) { }
 
