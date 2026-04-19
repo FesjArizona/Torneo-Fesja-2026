@@ -2,8 +2,8 @@
 import * as tournamentsModel from '../models/tournaments.model';
 import { Tournament } from '../types/Tournaments.interface';
 
-export async function findTournaments() {
-    return await tournamentsModel.findTournaments();
+export async function findTournaments(sportId: number) {
+    return await tournamentsModel.findTournaments(sportId);
 }
 
 export async function findTournament(id: number) {

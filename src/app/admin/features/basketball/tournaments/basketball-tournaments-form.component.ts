@@ -10,12 +10,12 @@ import { TeamsService } from 'src/app/services/teams.service';
 
 @Component({
   standalone: true,
-  selector: 'app-soccer-tournaments-form',
+  selector: 'app-basketball-tournaments-form',
   imports: [CommonModule, FormsModule],
-  templateUrl: './soccer-tournaments-form.component.html',
-  styleUrls: ['./soccer-tournaments-form.component.scss'],
+  templateUrl: './basketball-tournaments-form.component.html',
+  styleUrls: ['./basketball-tournaments-form.component.scss'],
 })
-export class soccerTournamentsFormComponent {
+export class basketballTournamentsFormComponent {
   private readonly tournamentService = inject(TournamentService)
   private readonly teamsService = inject(TeamsService)
   public tournament = signal<Tournament[]>([]);
@@ -25,7 +25,7 @@ export class soccerTournamentsFormComponent {
   registerSubmitted = false;
   registerForm: CreateTournament = {
     id: 0,
-    sport_id: 1,
+    sport_id: 3,
     name: '',
     description: '',
     format: '',
@@ -62,7 +62,7 @@ export class soccerTournamentsFormComponent {
   }
 
   loadTournaments() {
-    this.tournamentService.getAllTournaments(1).subscribe({
+    this.tournamentService.getAllTournaments(3).subscribe({
       next: (response: ApiResponse<Tournament[]>) => {
         this.tournament.set(response.data)
       },
@@ -101,9 +101,6 @@ export class soccerTournamentsFormComponent {
         );
 
         this.teams.set(teams);
-        console.log('Equipos registrados:', this.registeredTeams());
-        console.log('Todos los equipos:', response.data);
-        console.log('Equipos disponibles:', teams);
       },
       error: (error: HttpErrorResponse) => {
 
@@ -152,7 +149,7 @@ export class soccerTournamentsFormComponent {
       start_date: '',
       format: 'bracket',
       location: '.',
-      sport_id: 1,
+      sport_id: 3,
     };
     this.registerSubmitted = false;
   }

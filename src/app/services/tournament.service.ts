@@ -12,8 +12,9 @@ import { CreateTournament, RegisteredTeam, Tournament } from '../interfaces/tour
 export class TournamentService {
     private readonly httpClient = inject(HttpClient)
 
-    public getAllTournaments(): Observable<ApiResponse<Tournament[]>> {
-        return this.httpClient.get<ApiResponse<Tournament[]>>(`${URL_API}/tournament`)
+    public getAllTournaments(sportId: number): Observable<ApiResponse<Tournament[]>> {
+        const params = new HttpParams().set('sportId', sportId.toString());
+        return this.httpClient.get<ApiResponse<Tournament[]>>(`${URL_API}/tournament`, { params })
     }
 
     public getRegisteredTeams(tournament_id: number): Observable<ApiResponse<RegisteredTeam[]>> {
