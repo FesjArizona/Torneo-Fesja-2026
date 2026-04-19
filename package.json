@@ -6,9 +6,11 @@
   "build:prod": "npm run setup-env && npm run build && npm run build:api",
   "start:prod": "node api/dist/index.js", 
   "start:dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"nx serve\" \"npm run start:api\"",
-  "setup-env": "node scripts/setup-env.js"
+  "setup-env": "node scripts/setup-env.js",
+  "build": "nx build"
 
 },
+
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
