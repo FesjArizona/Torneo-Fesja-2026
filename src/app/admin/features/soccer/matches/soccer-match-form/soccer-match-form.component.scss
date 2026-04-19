@@ -277,8 +277,8 @@ $color-winner  : #3b82f6;
 .bracket-rounds {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: $round-gap;
+  align-items: center;
+  gap: 8rem;
   padding: 16px 0;
 }
 
@@ -529,8 +529,8 @@ $color-winner : #3b82f6;
 .bracket-rounds {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: $round-gap;
+  align-items: center;
+  gap: 8rem;
   padding: 16px 0;
 }
 
