@@ -65,10 +65,10 @@ export class AuthComponent implements OnInit {
 
     if (user.role === 'admin') {
       // Admin general → overview de soccer por defecto
-      this.router.navigate(['/admin/soccer/overview']);
+      this.router.navigate(['/admin/soccer/tournaments']);
     } else if (user.sport) {
       // Admin de deporte → su propio deporte
-      this.router.navigate([`/admin/${user.sport}/overview`]);
+      this.router.navigate([`/admin/${user.sport}/tournaments`]);
     } else {
       this.router.navigate(['/admin']);
     }
