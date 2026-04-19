@@ -7,8 +7,8 @@ import { TournamentBracket, Match } from 'src/app/interfaces/brackets.interface'
 
 @Component({
   standalone: true,
-  selector: 'app-soccer-bracket-view', // Nombre más descriptivo para "vista"
-  imports: [CommonModule], // Quitamos FormsModule
+  selector: 'app-soccer-bracket-view', 
+  imports: [CommonModule], 
   templateUrl: './soccer-bracket-view.component.html',
   styleUrls: ['./soccer-bracket-view.component.scss'],
 })

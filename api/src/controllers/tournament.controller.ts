@@ -3,7 +3,9 @@ import { catchAsync, AppError } from '../middlewares/errorHandler';
 import { Tournament } from '../types/Tournaments.interface';
 
 export const getTournaments = catchAsync(async (req, res) => {
-    const data = await tournamentService.findTournaments();
+
+    const sportId = parseInt(req.query.sportId as string, 10);
+    const data = await tournamentService.findTournaments(sportId);
     return {
         code: 200,
         data: data

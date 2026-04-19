@@ -2,7 +2,7 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { pool } from '../db/connection';
 import { Tournament } from '../types/Tournaments.interface';
 
-export async function findTournaments() {
+export async function findTournaments(sportId: number) {
   const [rows] = await pool.query<RowDataPacket[]>(`
     SELECT
       t.id,
@@ -20,8 +20,9 @@ export async function findTournaments() {
       s.slug AS sport_slug
     FROM tournaments t
     JOIN sports s ON s.id = t.sport_id
+    WHERE s.id = ?
     ORDER BY t.created_at DESC
-  `);
+  `, [sportId]);
   return rows;
 }
 

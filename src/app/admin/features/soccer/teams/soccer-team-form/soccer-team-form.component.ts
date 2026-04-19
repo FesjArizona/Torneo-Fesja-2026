@@ -8,20 +8,6 @@ import { TeamsService } from 'src/app/services/teams.service';
 
 type TeamStatus = 'Active' | 'Suspended' | 'Disqualified' | 'Inactive';
 
-interface Team {
-  id: number;
-  name: string;
-  coach: string;
-  players: number;
-  status: TeamStatus;
-}
-
-interface RegisterForm {
-  name: string;
-  coach: string;
-  players: number | null;
-}
-
 @Component({
   standalone: true,
   selector: 'app-soccer-team-form',

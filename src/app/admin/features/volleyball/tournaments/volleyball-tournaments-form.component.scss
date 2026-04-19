@@ -22,7 +22,7 @@ $radius: 12px;
 $radius-sm: 8px;
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-.teams-page {
+.tournament-page {
   font-family: $font-sans;
 
   &__header {
@@ -86,7 +86,7 @@ $radius-sm: 8px;
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
-.teams-card {
+.tournament-card {
   background: $bg-card;
   border-radius: $radius;
   border: 1px solid $border;
@@ -130,7 +130,7 @@ $radius-sm: 8px;
 }
 
 // corrección para el search con icono superpuesto
-.teams-card__search {
+.tournament-card__search {
   position: relative;
 
   &-icon {
@@ -148,11 +148,11 @@ $radius-sm: 8px;
 }
 
 // ─── Table ────────────────────────────────────────────────────────────────────
-.teams-table-wrapper {
+.tournament-table-wrapper {
   overflow-x: auto;
 }
 
-.teams-table {
+.tournament-table {
   width: 100%;
   border-collapse: collapse;
 
@@ -472,7 +472,7 @@ $radius-sm: 8px;
   color: #d97706;
 }
 
-.rmodal__title-team {
+.rmodal__title-tournament {
   color: $accent;
   font-weight: 600;
 }
