@@ -8,6 +8,7 @@ import { matchRoutes } from './match.routes';
 import { standignRoutes } from './standigns.routes';
 import { roundRoutes } from './round.routes';
 import { generateRoutes } from './generate.routes';
+import { authRoutes } from './auth.routes';
 
 export const router = Router();
 
@@ -20,3 +21,4 @@ router.use('/', matchRoutes);
 router.use('/', standignRoutes);
 router.use('/', roundRoutes);
 router.use('/', generateRoutes);
+router.use('/', authRoutes);

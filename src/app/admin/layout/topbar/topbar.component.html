@@ -43,12 +43,7 @@
     </button> -->
 
     <div class="topbar__user d-flex align-items-center gap-2">
-      <div class="topbar__avatar">
-        <img *ngIf="user.avatar; else initialsBlock" [src]="user.avatar" [alt]="user.name" />
-        <ng-template #initialsBlock>
-          <span class="topbar__avatar-initials">{{ initials }}</span>
-        </ng-template>
-      </div>
+      
       <div class="topbar__user-info d-none d-md-block">
         <p class="topbar__user-name mb-0">{{ user.name }}</p>
         <p class="topbar__user-role mb-0">{{ user.role }}</p>

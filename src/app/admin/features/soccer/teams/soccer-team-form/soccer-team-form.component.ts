@@ -76,7 +76,7 @@ export class SoccerTeamFormComponent {
   editSubmitted = false;
 
   // ── Computed ────────────────────────────────────────────────────────────────
-  get filteredTeams(): Team_[] {
+  get filteredTeams(): Team[] {
     const q = this.searchQuery.toLowerCase();
     if (!q) return this.teams();
     return this.teams().filter(
@@ -128,7 +128,7 @@ export class SoccerTeamFormComponent {
   }
 
   // ── Edit actions ────────────────────────────────────────────────────────────
-  openEditModal(team: Team_): void {
+  openEditModal(team: Team): void {
     this.editingTeam = team;
     this.editForm = {
       id: team.id,
