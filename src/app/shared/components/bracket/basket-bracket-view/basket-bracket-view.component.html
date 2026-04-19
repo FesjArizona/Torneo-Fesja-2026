@@ -25,9 +25,21 @@
     <p>Cargando información...</p>
   </div>
 
-  <div class="bracket-error" *ngIf="error && !loading">
-    <p>{{ error }}</p>
-    <button (click)="loadBracket()" class="btn btn-secondary">Reintentar</button>
+  <div style="margin-right: 10px">
+    <select
+      class="form-field__input"
+      style="margin-right: 10px"
+      [(ngModel)]="tournamentId"
+    >
+      <option value="" disabled selected>Selecciona un equipo</option>
+      <option
+        *ngFor="let tournament of tournaments()"
+        value="{{ tournament.id }}"
+      >
+        {{ tournament.name }}
+      </option>
+    </select>
+    <button (click)="loadBracket()" class="btn btn-secondary">Cargar</button>
   </div>
 
   <div class="bracket-scroll" *ngIf="tournamentData && !loading">

@@ -1,14 +1,18 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
+import { CommonModule, } from '@angular/common';
 import * as d3 from 'd3';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BracketService } from 'src/app/services/bracket.service';
 import { TournamentBracket, Match } from 'src/app/interfaces/brackets.interface';
+import { FormsModule } from '@angular/forms';
+import { TournamentService } from 'src/app/services/tournament.service';
+import { Tournament } from 'src/app/interfaces/tournament.interface';
+import { ApiResponse } from 'src/app/interfaces/api.interface';
 
 @Component({
   standalone: true,
   selector: 'app-soccer-bracket-view',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './soccer-bracket-view.component.html',
   styleUrls: ['./soccer-bracket-view.component.scss'],
 })
@@ -16,6 +20,7 @@ export class SoccerBracketViewComponent implements OnInit {
   tournamentData: TournamentBracket | null = null;
   loading = true;
   error: string | null = null;
+  public tournaments = signal<Tournament[]>([]);
 
   private _containerRef!: ElementRef<HTMLDivElement>;
   private _overlayRef!: ElementRef<SVGSVGElement>;
@@ -28,11 +33,12 @@ export class SoccerBracketViewComponent implements OnInit {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 1;
+  tournamentId: number = 0;
 
-  constructor(private bracketService: BracketService) { }
+  constructor(private bracketService: BracketService, private tournamentService: TournamentService) { }
 
   ngOnInit(): void {
+    this.loadTournaments()
     this.loadBracket();
   }
 
@@ -52,6 +58,22 @@ export class SoccerBracketViewComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  loadTournaments() {
+    this.tournamentService.getAllTournaments(1).subscribe({
+      next: (response: ApiResponse<Tournament[]>) => {
+        this.tournaments.set(response.data)
+        console.log(this.tournaments)
+      },
+      error: (error: HttpErrorResponse) => {
+
+      },
+      complete: () => {
+
+      },
+    })
+
   }
 
   private tryDrawLines(): void {

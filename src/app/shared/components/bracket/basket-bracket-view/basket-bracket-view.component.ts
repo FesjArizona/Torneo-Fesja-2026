@@ -1,13 +1,18 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BracketService } from 'src/app/services/bracket.service';
 import { TournamentBracket, Match } from 'src/app/interfaces/brackets.interface';
+import { TournamentService } from 'src/app/services/tournament.service';
+import { ApiResponse } from 'src/app/interfaces/api.interface';
+import { Tournament } from 'src/app/interfaces/tournament.interface';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   standalone: true,
   selector: 'app-basket-bracket-view',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './basket-bracket-view.component.html',
   styleUrls: ['./basket-bracket-view.component.scss']
 })
@@ -15,7 +20,7 @@ export class BasketBracketViewComponent {
   tournamentData: TournamentBracket | null = null;
   loading = true;
   error: string | null = null;
-
+  public tournaments = signal<Tournament[]>([]);
   private _containerRef!: ElementRef<HTMLDivElement>;
   private _overlayRef!: ElementRef<SVGSVGElement>;
 
@@ -27,12 +32,13 @@ export class BasketBracketViewComponent {
     if (el) { this._overlayRef = el; this.tryDrawLines(); }
   }
 
-  private tournamentId = 3;
+  tournamentId = -1;
 
-  constructor(private bracketService: BracketService) { }
+  constructor(private bracketService: BracketService, private tournamentService: TournamentService) { }
 
   ngOnInit(): void {
     this.loadBracket();
+    this.loadTournaments()
   }
 
   @HostListener('window:resize')
@@ -52,6 +58,23 @@ export class BasketBracketViewComponent {
       },
     });
   }
+
+  loadTournaments() {
+    this.tournamentService.getAllTournaments(3).subscribe({
+      next: (response: ApiResponse<Tournament[]>) => {
+        this.tournaments.set(response.data)
+        console.log(this.tournaments)
+      },
+      error: (error: HttpErrorResponse) => {
+
+      },
+      complete: () => {
+
+      },
+    })
+
+  }
+
 
   private tryDrawLines(): void {
     if (this.tournamentData) {

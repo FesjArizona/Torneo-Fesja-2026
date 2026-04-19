@@ -9,6 +9,8 @@
   "build:api": "tsc -p api/tsconfig.json",
   "start:api": "node api/dist/index.js",
   "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\"",
+  "start-local:api": "nodemon --watch api/src --ext ts --exec ts-node api/src/index.ts",
+  "dev-local": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start-local:api\"",
   "setup-env": "node scripts/setup-env.js",
   "build:prod": "npm run setup-env && npm run build && npm run build:api",
   "start:prod": "node api/dist/index.js"
