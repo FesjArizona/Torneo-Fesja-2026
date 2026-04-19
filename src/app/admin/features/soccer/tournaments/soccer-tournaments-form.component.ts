@@ -101,9 +101,6 @@ export class soccerTournamentsFormComponent {
         );
 
         this.teams.set(teams);
-        console.log('Equipos registrados:', this.registeredTeams());
-        console.log('Todos los equipos:', response.data);
-        console.log('Equipos disponibles:', teams);
       },
       error: (error: HttpErrorResponse) => {
 

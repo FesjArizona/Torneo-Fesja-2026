@@ -30,3 +30,20 @@ export interface RegisteredTeam {
     inscription_status: string,
     team_name: string,
 }
+
+export interface Standings {
+    team_id: number,
+    team_name: string,
+    short_name: string,
+    group_name: string,
+    played: number,
+    won: number,
+    drawn: number,
+    lost: number,
+    points: number,
+    goals_for: number,
+    goals_against: number,
+    goal_diff: number,
+    sport_stats: any,
+    updated_at: "2026-04-19T18:24:04.000Z"
+}

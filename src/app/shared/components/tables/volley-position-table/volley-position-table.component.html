@@ -1,6 +1,5 @@
 <div class="card border-0 container rounded-3 shadow-sm">
   <div class="card-body">
-
     <h6 class="fw-semibold mb-3">Tabla de Posiciones</h6>
 
     <div class="tabla-wrapper">
@@ -11,7 +10,6 @@
             <th class="sticky-col col-team">Equipo</th>
             <th class="text-center">PJ</th>
             <th class="text-center">G</th>
-            <th class="text-center">E</th>
             <th class="text-center">P</th>
             <th class="text-center">GF</th>
             <th class="text-center">GC</th>
@@ -21,35 +19,31 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let team of standings; let i = index">
-
+          <tr *ngFor="let team of this.standingData; let i = index">
             <td class="sticky-col col-pos">
               {{ i + 1 }}
             </td>
 
             <td class="sticky-col col-team">
-              {{ team.name }}
+              {{ team.team_name }}
             </td>
 
-            <td class="text-center">{{ team.pj }}</td>
-            <td class="text-center">{{ team.g }}</td>
-            <td class="text-center">{{ team.e }}</td>
-            <td class="text-center">{{ team.p }}</td>
-            <td class="text-center">{{ team.gf }}</td>
-            <td class="text-center">{{ team.gc }}</td>
+            <td class="text-center">{{ team.played }}</td>
+            <td class="text-center">{{ team.won }}</td>
+            <td class="text-center">{{ team.lost }}</td>
+            <td class="text-center">{{ team.goals_for }}</td>
+            <td class="text-center">{{ team.goals_against }}</td>
 
             <td class="text-center">
-              {{ team.dif > 0 ? '+' + team.dif : team.dif }}
+              {{ team.goal_diff }}
             </td>
 
             <td class="text-end fw-semibold">
-              {{ team.pts }}
+              {{ team.points }}
             </td>
-
           </tr>
         </tbody>
       </table>
     </div>
-
   </div>
 </div>

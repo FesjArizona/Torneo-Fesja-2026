@@ -20,7 +20,7 @@ export async function findByTournament(tournamentId: number) {
         '    FROM standings s\n' +
         '    JOIN teams  t ON t.id = s.team_id\n' +
         '    LEFT JOIN `groups` g ON g.id = s.group_id\n' + 
-        '    WHERE s.tournament_id = 16\n' +
+        '    WHERE s.tournament_id = ?\n' +
         '    ORDER BY g.name ASC, s.points DESC, s.goal_diff DESC, s.goals_for DESC\n', [tournamentId]);
     return rows;
 }

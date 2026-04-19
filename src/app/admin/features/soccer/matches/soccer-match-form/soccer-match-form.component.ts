@@ -68,7 +68,7 @@ export class SoccerMatchFormComponent implements OnInit {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 3;
+  private tournamentId = 4;
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }
@@ -96,7 +96,6 @@ export class SoccerMatchFormComponent implements OnInit {
       next: (response: TournamentBracket) => {
         this.tournamentData = response;
         this.initScores(response);
-        console.log(response)
         this.loading = false;
         this.tryDrawLines();
       },

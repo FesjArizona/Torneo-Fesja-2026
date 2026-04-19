@@ -168,6 +168,4 @@ export async function updateNextRoundMatch(tournamentId: number, prevMatchId: nu
     `UPDATE matches SET ${columnaAActualizar} = ? WHERE id = ?`,
     [teamId, nextMatchId]
   );
-
-  console.log(`Ganador avanzado al partido ${nextMatchId} en el espacio de ${columnaAActualizar}`);
 }
