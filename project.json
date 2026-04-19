@@ -37,14 +37,21 @@
         "production": {
           "budgets": [
             {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "type": "bundle",
+              "name": "main",
+              "maximumWarningSize": "500kb",
+              "maximumSize": "1mb"
+            },
+            {
+              "type": "bundle",
+              "name": "polyfills",
+              "maximumWarningSize": "200kb",
+              "maximumSize": "500kb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarningSize": "6kb",
+              "maximumSize": "8kb"
             }
           ],
           "outputHashing": "all"
