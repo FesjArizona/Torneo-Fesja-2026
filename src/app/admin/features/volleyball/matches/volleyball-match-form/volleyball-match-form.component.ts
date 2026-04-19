@@ -68,7 +68,7 @@ export class VolleyballMatchFormComponent {
     }
   }
   // ID del torneo a cargar — cámbialo o recíbelo como @Input()
-  private tournamentId = 19;
+  private tournamentId = 1;
   private lineDrawn = false;
 
   constructor(private bracketService: BracketService) { }
