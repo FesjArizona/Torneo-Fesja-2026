@@ -35,26 +35,13 @@
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "bundle",
-              "name": "main",
-              "maximumWarningSize": "500kb",
-              "maximumSize": "1mb"
-            },
-            {
-              "type": "bundle",
-              "name": "polyfills",
-              "maximumWarningSize": "200kb",
-              "maximumSize": "500kb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarningSize": "6kb",
-              "maximumSize": "8kb"
-            }
-          ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "optimization": true,
+          "sourceMap": false,
+          "namedChunks": false,
+          "aot": true,
+          "extractLicenses": true,
+          "vendorChunk": false
         },
         "development": {
           "buildOptimizer": false,
