@@ -40,7 +40,7 @@ export class SidebarComponent {
       route: '/soccer',
       expanded: true,
       children: [
-        { label: 'Overview', route: 'soccer/overview' },
+        /* { label: 'Overview', route: 'soccer/overview' }, */
         { label: 'Teams', route: 'soccer/teams' },
         { label: 'Matches', route: 'soccer/matches' },
         { label: 'Tournaments', route: 'soccer/tournaments' },
@@ -54,7 +54,7 @@ export class SidebarComponent {
       route: '/volleyball',
       expanded: false,
       children: [
-        { label: 'Overview', route: 'volleyball/overview' },
+        /* { label: 'Overview', route: 'volleyball/overview' }, */
         { label: 'Teams', route: 'volleyball/teams' },
         { label: 'Matches', route: 'volleyball/matches' },
         { label: 'Tournaments', route: 'volleyball/tournaments' },
@@ -68,7 +68,7 @@ export class SidebarComponent {
       route: '/basketball',
       expanded: false,
       children: [
-        { label: 'Overview', route: 'basketball/overview' },
+        /* { label: 'Overview', route: 'basketball/overview' }, */
         { label: 'Teams', route: 'basketball/teams' },
         { label: 'Matches', route: 'basketball/matches' },
         { label: 'Tournaments', route: 'basketball/tournaments' },

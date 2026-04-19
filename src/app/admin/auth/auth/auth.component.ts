@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  
+
 
 
   // Redirigir según el rol y deporte del usuario
