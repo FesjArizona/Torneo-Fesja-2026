@@ -4,16 +4,14 @@
   
 "scripts": {
   "ng": "ng",
-  "start": "nx serve",
-  "build": "nx build",
+  "start:dev": "nx serve",
+  "start": "node api/dist/index.js",
+  "build": "npm run setup-env && nx build && npm run build:api",
   "build:api": "tsc -p api/tsconfig.json",
-  "start:api": "node api/dist/index.js",
-  "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start:api\"",
+  "dev": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start:dev\" \"npm run start-local:api\"",
   "start-local:api": "nodemon --watch api/src --ext ts --exec ts-node api/src/index.ts",
-  "dev-local": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start\" \"npm run start-local:api\"",
-  "setup-env": "node scripts/setup-env.js",
-  "build:prod": "npm run setup-env && npm run build && npm run build:api",
-  "start:prod": "node api/dist/index.js"
+  "dev-local": "concurrently -n \"ANGULAR,EXPRESS\" -c \"cyan,green\" \"npm run start:dev\" \"npm run start-local:api\"",
+  "setup-env": "node scripts/setup-env.js"
 },
 
   "private": true,
