@@ -1,6 +1,8 @@
 import { app } from './app';
 import { env } from './config/environment';
 
-app.listen(env.PORT, () => {
-    console.log(`API corriendo en http://localhost:${env.PORT}`);
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`API corriendo en el puerto ${PORT}`);
 });
